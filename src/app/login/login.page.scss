@@ -35,10 +35,9 @@
   }
 
   ion-input {
-    --background: white;
+    --background: #DFF7E2;
     --padding-start: 10px;
     --padding-end: 10px;
-    border: 1px solid #093030;
     border-radius: 8px;
     color: #093030;
     font-size: 16px;
@@ -52,24 +51,23 @@
 }
 
 .login-button {
-  background-color: #00d1a0;
-  color: white;
-  border-radius: 10px;
-  margin-top: 10px;
-  width: 90%;
-  margin: 10px auto;
-  height: 45px;
-  font-size: 16px;
-}
+  --color: #093030;
+  --border-radius: 36px;
+  font-weight: bold;
+  font-size: 15px;
+  
 
-.login-button:hover {
-  background-color: darken(#00d1a0, 10%);
+  --background: #00d1a0;
+  width: 50%;
+  margin: 45px auto;
+  margin-bottom: 15px;
+  height: 40px;
 }
 
 .forgot-password {
   display: block;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
   color: #00d1a0;
   font-size: 14px;
   text-align: center;
@@ -77,18 +75,19 @@
 }
 
 .create-account-buttom {
-  margin-top: 10px;
-  color: #00d1a0;
-  border-color: #00d1a0;
-  border-radius: 10px;
-  width: 90%;
-  height: 45px;
-  margin: 0 auto;
-  font-size: 16px;
-}
+  --color: #093030;
+  --border-radius: 36px;
+  font-weight: bold;
+  font-size: 15px;
 
-.create-account-buttom:hover {
-  background-color: lighten(#00d1a0, 30%);
+
+  --background: #DFF7E2;
+  width: 50%;
+  margin: 45px auto;
+  margin-bottom: 10px;
+  margin-top: 40px;
+  height: 40px;
+
 }
 
 .extra-options {
