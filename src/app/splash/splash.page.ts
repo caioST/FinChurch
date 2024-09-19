@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-splash',
@@ -8,12 +8,15 @@ import { Router } from '@angular/router';
 })
 export class SplashPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private navCtrl: NavController) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     setTimeout(() => {
-
-      this.router.navigateByUrl('/access');
-    }, 4000);
+      // Redirecionar para a página de Access após 4 segundos
+      this.navCtrl.navigateRoot('/access', {
+        animated: true,
+        animationDirection: 'forward'
+      });
+    }, 4000); // Tempo de espera em milissegundos (4 segundos)
   }
 }
