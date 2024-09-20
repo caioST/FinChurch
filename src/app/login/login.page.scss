@@ -29,24 +29,25 @@
 }
 
 .input-field {
+  --background: transparent;
+  --border-width: 0px;
   margin-bottom: 20px;
+
   ion-label {
     color: #093030;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 20px;
   }
 
   ion-input {
-    --background: #DFF7E2;
+    --background: #DFF7E2; /* Cor de fundo dos inputs */
     --padding-start: 10px;
     --padding-end: 10px;
     border-radius: 8px;
     color: #093030;
     font-size: 16px;
     height: 45px;
-  }
-
-  ion-icon {
-    color: #093030;
-    cursor: pointer;
   }
 }
 
@@ -55,23 +56,11 @@
   --border-radius: 36px;
   font-weight: bold;
   font-size: 15px;
-  
 
   --background: #00d1a0;
   width: 50%;
-  margin: 45px auto;
-  margin-bottom: 15px;
+  margin: 20px auto;
   height: 40px;
-}
-
-.forgot-password {
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 40px;
-  color: #00d1a0;
-  font-size: 14px;
-  text-align: center;
-  text-decoration: none;
 }
 
 .create-account-buttom {
@@ -80,14 +69,21 @@
   font-weight: bold;
   font-size: 15px;
 
-
   --background: #DFF7E2;
   width: 50%;
-  margin: 45px auto;
-  margin-bottom: 10px;
-  margin-top: 40px;
+  margin: 20px auto; 
   height: 40px;
+}
 
+.forgot-password {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #093030;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
 }
 
 .extra-options {
@@ -95,9 +91,10 @@
   font-size: 14px;
   color: #093030;
   text-align: center;
+  font-weight: bold;
 
   a {
-    color: #00d1a0;
+    color: #0068FF;
     font-weight: bold;
     text-decoration: none;
   }

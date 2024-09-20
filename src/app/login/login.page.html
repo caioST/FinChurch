@@ -3,15 +3,15 @@
     <h1 class="welcome-title">Bem-Vindo!</h1>
 
     <ion-item lines="none" class="input-field">
-      <ion-label positions="floating">CPF</ion-label>
-      <ion-input placeholder="123.456.789-00" type="text"></ion-input>
+      <ion-label class="input-label" position="stacked">CPF</ion-label> 
+      <ion-input placeholder="example@example.com" type="text"></ion-input>
     </ion-item>
-
+    
     <ion-item lines="none" class="input-field">
-      <ion-label positions="label">Senha</ion-label>
-      <ion-input placeholder="........" type="password"></ion-input>
-      <ion-icon slot="end" name="eye-outline"></ion-icon>
+      <ion-label class="input-label" position="stacked">Senha</ion-label>
+      <ion-input placeholder="********" type="password"></ion-input>
     </ion-item>
+    
 
     <ion-button expand="block" class="login-button" (click)="login()">
       Acessar
