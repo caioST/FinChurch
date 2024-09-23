@@ -1,0 +1,45 @@
+.register-screen {
+    --background: #00d1a0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100vh;
+}
+
+.form-container {
+    background-color: #F1FFF3;
+    height: 80vh;
+    width: 100%;
+    max-width: 500px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    position: fixed;
+    margin: auto;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+}
+
+.input-field {
+    --background: transparent;
+    --border-width: 0px;
+    margin-bottom: 20px;
+
+    ion-label {
+        color: #093030;
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    ion-input {
+        --background: #DFF7E2;
+        /* Cor de fundo dos inputs */
+        --padding-start: 10px;
+        --padding-end: 10px;
+        border-radius: 8px;
+        color: #093030;
+        font-size: 15px;
+        height: 45px;
+    }
+}

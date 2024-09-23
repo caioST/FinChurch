@@ -1,13 +1,60 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>register</ion-title>
+    <ion-title>Abrir Conta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">register</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="register-screen">
+
+  <div class="form-container">
+    <form class="input-form">
+
+      <ion-item lines="none" class="input-field">
+        <ion-label class="input-label" position="stacked">Nome Completo</ion-label>
+        <ion-input name="name" type="text" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-field">
+        <ion-label class="input-label" position="stacked">CPF</ion-label>
+        <ion-input name="cpf" type="text" placeholder="123.456.789-00" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-field">
+        <ion-label class="input-label" position="stacked">E-mail</ion-label>
+        <ion-input name="email" type="email" placeholder="exemplo@exemplo.com" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-field">
+        <ion-label class="input-label" position="stacked">Telefone Celular</ion-label>
+        <ion-input name="phone" type="tel" placeholder="(21) 12345-6789" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-field">
+        <ion-label class="input-label" position="stacked">Data de Nascimento</ion-label>
+        <ion-input name="birthdate" type="date" placeholder="DD/MM/YYYY" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-field">
+        <ion-label class="input-label" position="stacked">Senha</ion-label>
+        <ion-input name="password" type="password" placeholder="********" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-field">
+        <ion-label class="input-label" position="stacked">Confirmar Senha</ion-label>
+        <ion-input name="confirmPassword" type="password" placeholder="********" required></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="register-button" type="submit">Abrir Conta</ion-button>
+
+      <div class="terms">
+        <p>Para continuar, você deve concordar com os <a href="#">
+            Termos de Uso e Políticas de Privacidade.</a></p>
+      </div>
+
+      <div class="extra-options">
+        <p>Você já tem uma conta? <a href="#"> Acessar Conta.</a></p>
+      </div>
+    </form>
+  </div>
+
 </ion-content>
