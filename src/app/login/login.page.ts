@@ -10,17 +10,14 @@ export class LoginPage {
 
   constructor(private navCtrl: NavController) { }
 
-    login() {
-      // Lógica de login
-      console.log('Login iniciado.')
+  login() {
+    // Lógica de login
+    console.log('Login iniciado.')
 
-
-
-
-      this.navCtrl.navigateForward('/dashboard', {
-        animated: true,
-        animationDirection: 'forward'
-      });
-    }
+    this.navCtrl.navigateForward('/dashboard', {
+      animated: true,
+      animationDirection: 'forward'
+    });
+  }
 
 }

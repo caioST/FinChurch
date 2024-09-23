@@ -18,4 +18,11 @@ export class AccessPage {
       animationDirection: 'forward'
     });
   }
+
+  goToRegister() {
+    this.navCtrl.navigateForward('/register', {
+      animated: true,
+      animationDirection: 'forward'
+    });
+  }
 }
