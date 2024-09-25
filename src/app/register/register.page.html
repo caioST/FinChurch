@@ -9,6 +9,7 @@
   <div class="form-container">
     <form class="input-form">
 
+      <!-- Campos do formulário -->
       <ion-item lines="none" class="input-field">
         <ion-label class="input-label" position="stacked">Nome Completo</ion-label>
         <ion-input name="name" type="text" required></ion-input>
@@ -31,7 +32,7 @@
 
       <ion-item lines="none" class="input-field">
         <ion-label class="input-label" position="stacked">Data de Nascimento</ion-label>
-        <ion-input name="birthdate" type="date" placeholder="DD/MM/YYYY" required></ion-input>
+        <ion-input name="birthdate" type="date" required></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="input-field">
@@ -44,15 +45,19 @@
         <ion-input name="confirmPassword" type="password" placeholder="********" required></ion-input>
       </ion-item>
 
+      <!-- Botão de Cadastro -->
       <ion-button expand="block" class="register-button" type="submit">Abrir Conta</ion-button>
 
+      <!-- Termos de uso -->
       <div class="terms">
-        <p>Para continuar, você deve concordar com os <a href="#">
-            Termos de Uso e Políticas de Privacidade.</a></p>
+        <p>Para continuar, você deve concordar com os 
+          <a href="#">Termos de Uso e Políticas de Privacidade.</a>
+        </p>
       </div>
 
+      <!-- Acessar conta existente -->
       <div class="extra-options">
-        <p>Você já tem uma conta? <a href="#"> Acessar Conta.</a></p>
+        <p>Você já tem uma conta? <a href="#">Acessar Conta.</a></p>
       </div>
     </form>
   </div>
