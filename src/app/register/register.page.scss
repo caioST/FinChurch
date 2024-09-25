@@ -40,7 +40,7 @@
 
 .input-field {
     --background: transparent;
-    --borfer-width: 0px;
+    --border-width: 0px;
 
     ion-label {
         color:#093030;
@@ -95,8 +95,8 @@
     line-height: normal;
   
     a {
-      color: #4B4544;
-      font-weight: bold;
-      text-decoration: none;
+        color: #0068FF;
+        font-weight: bold;
+        text-decoration: none;
     }
 }

@@ -17,6 +17,13 @@ export class LoginPage {
     });
   }
 
+  resetPassword() {
+    this.navCtrl.navigateForward('/forgot-password', {
+      animated: true,
+      animationDirection: 'forward'
+    });
+  }
+
   login() {
     // Lógica de login
     console.log('Login iniciado.')

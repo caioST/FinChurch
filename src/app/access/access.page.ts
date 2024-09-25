@@ -11,6 +11,13 @@ export class AccessPage {
 
   constructor(private navCtrl: NavController) {}
 
+  resetPassword() {
+    this.navCtrl.navigateForward('/forgot-password,', {
+      animated: true,
+      animationDirection: 'forward'
+    });
+  }
+
   goToLogin() {
 
     this.navCtrl.navigateForward('/login', {

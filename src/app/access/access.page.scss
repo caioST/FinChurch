@@ -60,12 +60,13 @@ ion-content {
 }
 
 .forgot-password {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
     color: #093030;
-    margin-top: 16px;
-    font-size: 11px;
     font-weight: bold;
+    font-size: 14px;
     text-align: center;
-    font-family: "League Spartan", sans-serif;
-    font-size: 15px;
+    text-decoration: none;
 }
 
