@@ -26,7 +26,27 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
+  },  {
+    path: 'forgot-password',
+    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
+  {
+    path: 'security-key',
+    loadChildren: () => import('./security-key/security-key.module').then( m => m.SecurityKeyPageModule)
+  },
+  {
+    path: 'new-password',
+    loadChildren: () => import('./new-password/new-password.module').then( m => m.NewPasswordPageModule)
+  },
+  {
+    path: 'password-changed',
+    loadChildren: () => import('./password-changed/password-changed.module').then( m => m.PasswordChangedPageModule)
+  },
+  {
+    path: 'fingerprint-authentication',
+    loadChildren: () => import('./fingerprint-authentication/fingerprint-authentication.module').then( m => m.FingerprintAuthenticationPageModule)
+  },
+
 ];
 
 @NgModule({
