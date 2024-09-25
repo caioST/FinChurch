@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
-export class RegisterPage implements OnInit {
+export class RegisterPage {
 
-  constructor() { }
+  constructor(private navCtrl: NavController) { }
 
-  ngOnInit() {
-  }
-
+    goToLogin() {
+      this.navCtrl.navigateForward('/login', {
+        animated: true,
+        animationDirection: 'forward'
+      });
+    }
 }

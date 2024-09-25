@@ -10,6 +10,13 @@ export class LoginPage {
 
   constructor(private navCtrl: NavController) { }
 
+  goToRegister() {
+    this.navCtrl.navigateForward('/register', {
+      animated: true,
+      animationDirection: 'forward'
+    });
+  }
+
   login() {
     // Lógica de login
     console.log('Login iniciado.')

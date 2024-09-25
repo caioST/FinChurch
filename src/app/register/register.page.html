@@ -9,10 +9,12 @@
   <div class="form-container">
     <form class="input-form">
 
+      <h1 class="welcome-title">Bem-Vindo!</h1>
+
       <!-- Campos do formulário -->
       <ion-item lines="none" class="input-field">
         <ion-label class="input-label" position="stacked">Nome Completo</ion-label>
-        <ion-input name="name" type="text" required></ion-input>
+        <ion-input name="name" type="text" placeholder="José Silva" required></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="input-field">
@@ -57,7 +59,7 @@
 
       <!-- Acessar conta existente -->
       <div class="extra-options">
-        <p>Você já tem uma conta? <a href="#">Acessar Conta.</a></p>
+        <p>Você já tem uma conta? <a (click)="goToLogin()">Acessar Conta.</a></p>
       </div>
     </form>
   </div>
