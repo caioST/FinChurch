@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-forgot-password',
@@ -9,7 +9,27 @@ import { NavController } from '@ionic/angular';
 export class ForgotPasswordPage {
   email: string = '';
 
-  constructor(private navCtrl: NavController) { }
+  constructor(private navCtrl: NavController, private toastCtrl: ToastController) { }
+
+  async sendResetEmail() {
+    if (!this.validateEmail(this.email)) {
+      const toast = await this.toastCtrl.create({
+        message: 'Por favor, insira um e-mail válido.',
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
+      return;
+    }
+
+    // Lógica para enviar o e-mail de recuperação
+    const toast = await this.toastCtrl.create({
+      message: 'E-mail de recuperação enviado com sucesso!',
+      duration: 2000,
+      color: 'success'
+    });
+    toast.present();
+  }
 
   goToLogin() {
     this.navCtrl.navigateForward('login', {
@@ -22,15 +42,11 @@ export class ForgotPasswordPage {
     this.navCtrl.navigateForward('/register', {
       animated: true,
       animationDirection: 'forward'
-    })
+    });
   }
 
-  sendResetEmail() {
-    if (this.email) {
-      // Adicione lógica para enviar o e-mail de redefinição de senha
-      console.log('E-mail de redefinição enviado para:', this.email);
-    } else {
-      console.log('Por favor, insira um e-mail válido.');
-    }
+  validateEmail(email: string): boolean {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
   }
 }

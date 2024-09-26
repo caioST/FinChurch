@@ -1,13 +1,25 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>security-key</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">security-key</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="security-key-container">
+    <h2 class="security-key-title">Digite A Chave De Segurança</h2>
+
+    <form (ngSubmit)="verifySecurityKey()">
+      <div class="security-key-inputs">
+        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[0]" name="digit1" required></ion-input>
+        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[1]" name="digit2" required></ion-input>
+        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[2]" name="digit3" required></ion-input>
+        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[3]" name="digit4" required></ion-input>
+        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[4]" name="digit5" required></ion-input>
+        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[5]" name="digit6" required></ion-input>
+      </div>
+
+      <ion-button expand="block" type="submit" class="confirm-button">Confirmar</ion-button>
+      <ion-button expand="block" (click)="resendCode()" class="resend-button">Reenviar</ion-button>
+    </form>
+
+    <div class="extra-options">
+      <p>Não tem uma Conta? <a (click)="createAccount()">Criar Conta</a></p>
+    </div>
+  </div>
+
 </ion-content>
