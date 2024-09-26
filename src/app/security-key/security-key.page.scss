@@ -23,6 +23,16 @@
     flex-direction: column;
     position: fixed;
   }
+
+  .title {
+    color: #093030;
+    text-align: center;
+    font-size: 27px;
+    font-style: normal;
+    margin-top: 40px;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
   
   .security-key-title {
     color: #0E3E3E;
@@ -57,6 +67,7 @@
     width: 50%;
     margin: 20px auto;
     height: 40px;
+    margin-top: 40px;
   }
   
   .confirm-button {

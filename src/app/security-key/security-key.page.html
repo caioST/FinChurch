@@ -1,16 +1,18 @@
 <ion-content class="ion-padding">
 
+  <ion-title class="title">Chave de Segurança</ion-title>
+
   <div class="security-key-container">
     <h2 class="security-key-title">Digite A Chave De Segurança</h2>
 
     <form (ngSubmit)="verifySecurityKey()">
       <div class="security-key-inputs">
-        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[0]" name="digit1" required></ion-input>
-        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[1]" name="digit2" required></ion-input>
-        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[2]" name="digit3" required></ion-input>
-        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[3]" name="digit4" required></ion-input>
-        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[4]" name="digit5" required></ion-input>
-        <ion-input maxlength="1" type="number" [(ngModel)]="securityKey[5]" name="digit6" required></ion-input>
+        <ion-input maxlength="1" type="text" [(ngModel)]="securityKey[0]" name="digit1" required></ion-input>
+        <ion-input maxlength="1" type="text" [(ngModel)]="securityKey[1]" name="digit2" required></ion-input>
+        <ion-input maxlength="1" type="text" [(ngModel)]="securityKey[2]" name="digit3" required></ion-input>
+        <ion-input maxlength="1" type="text" [(ngModel)]="securityKey[3]" name="digit4" required></ion-input>
+        <ion-input maxlength="1" type="text" [(ngModel)]="securityKey[4]" name="digit5" required></ion-input>
+        <ion-input maxlength="1" type="text" [(ngModel)]="securityKey[5]" name="digit6" required></ion-input>
       </div>
 
       <ion-button expand="block" type="submit" class="confirm-button">Confirmar</ion-button>
