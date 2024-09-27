@@ -9,7 +9,15 @@ import { ModalController } from '@ionic/angular';
 export class TermsModalComponent {
   constructor(private modalCtrl: ModalController) {}
 
+  acceptTerms() {
+    this.modalCtrl.dismiss({ accepted: true });
+  }
+
+  declineTerms() {
+    this.modalCtrl.dismiss({ accepted: false });
+  }
+
   closeModal() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss({ accepted: false });
   }
 }

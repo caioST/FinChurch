@@ -1,13 +1,14 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>fingerprint-authentication</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">fingerprint-authentication</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+
+  <ion-title class="title-fingerprint">
+    Impressão Digital
+  </ion-title>
+
+  <div class="fingerprint-container">
+    <h2 class="title">Use sua Impressão Digital</h2>
+    <ion-button expand="full" (click)="registerFingerprint()" class="register-button">
+      Usar Touch ID
+    </ion-button>
+  </div>
 </ion-content>
