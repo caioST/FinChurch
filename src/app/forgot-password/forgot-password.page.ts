@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NavController, ToastController } from '@ionic/angular';
 
 @Component({
@@ -9,26 +10,25 @@ import { NavController, ToastController } from '@ionic/angular';
 export class ForgotPasswordPage {
   email: string = '';
 
-  constructor(private navCtrl: NavController, private toastCtrl: ToastController) { }
+  constructor(private navCtrl: NavController, private toastCtrl: ToastController, private afAuth: AngularFireAuth) { }
 
   async sendResetEmail() {
-    if (!this.validateEmail(this.email)) {
+    try {
+      await this.afAuth.sendPasswordResetEmail(this.email);
       const toast = await this.toastCtrl.create({
-        message: 'Por favor, insira um e-mail válido.',
+        message: 'E-mail de recuperação enviado com sucesso!',
+        duration: 2000,
+        color: 'success'
+      });
+      toast.present();
+    } catch (error) {
+      const toast = await this.toastCtrl.create({
+        message: 'Erro ao enviar e-mail de recuperação.',
         duration: 2000,
         color: 'danger'
       });
       toast.present();
-      return;
     }
-
-    // Lógica para enviar o e-mail de recuperação
-    const toast = await this.toastCtrl.create({
-      message: 'E-mail de recuperação enviado com sucesso!',
-      duration: 2000,
-      color: 'success'
-    });
-    toast.present();
   }
 
   goToLogin() {
@@ -43,10 +43,5 @@ export class ForgotPasswordPage {
       animated: true,
       animationDirection: 'forward'
     });
-  }
-
-  validateEmail(email: string): boolean {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
   }
 }

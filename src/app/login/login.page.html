@@ -1,17 +1,16 @@
-<ion-content class="login-screen">
+<ion-content class="login-screen" scrollY="false">
   <div class="login-container">
     <h1 class="welcome-title">Bem-Vindo!</h1>
 
     <ion-item lines="none" class="input-field">
       <ion-label class="input-label" position="stacked">CPF</ion-label> 
-      <ion-input placeholder="example@example.com" type="text"></ion-input>
+      <ion-input placeholder="exemplo@exemplo.com" type="text" [(ngModel)]="cpf" required></ion-input>
     </ion-item>
     
     <ion-item lines="none" class="input-field">
       <ion-label class="input-label" position="stacked">Senha</ion-label>
-      <ion-input placeholder="********" type="password"></ion-input>
+      <ion-input placeholder="********" type="password" [(ngModel)]="password" required></ion-input>
     </ion-item>
-    
 
     <ion-button expand="block" class="login-button" (click)="login()">
       Acessar

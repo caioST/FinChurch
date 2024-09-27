@@ -1,51 +1,49 @@
-
 <ion-content class="register-screen">
   <ion-title class="title">Criar Conta</ion-title>
   <div class="form-container">
-    <form class="input-form">
-
+    <form class="input-form" (ngSubmit)="register()">
       <!-- Campos do formulário -->
       <ion-item lines="none" class="input-field">
-        <ion-label class="input-label" >Nome Completo</ion-label>
-        <ion-input name="name" type="text" placeholder="José Silva" required></ion-input>
+        <ion-label class="input-label">Nome Completo</ion-label>
+        <ion-input name="name" type="text" placeholder="José Silva" [(ngModel)]="fullName" required></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="input-field">
-        <ion-label class="input-label" >CPF</ion-label>
-        <ion-input name="cpf" type="text" placeholder="123.456.789-00" required></ion-input>
+        <ion-label class="input-label">CPF</ion-label>
+        <ion-input name="cpf" type="text" placeholder="123.456.789-00" [(ngModel)]="cpf" required></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="input-field">
-        <ion-label class="input-label" >E-mail</ion-label>
-        <ion-input name="email" type="email" placeholder="exemplo@exemplo.com" required></ion-input>
+        <ion-label class="input-label">E-mail</ion-label>
+        <ion-input name="email" type="email" placeholder="exemplo@exemplo.com" [(ngModel)]="email" required></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="input-field">
-        <ion-label class="input-label" >Telefone Celular</ion-label>
-        <ion-input name="phone" type="tel" placeholder="(21) 12345-6789" required></ion-input>
+        <ion-label class="input-label">Telefone Celular</ion-label>
+        <ion-input name="phone" type="tel" placeholder="(21) 12345-6789" [(ngModel)]="phone" required></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="input-field">
         <ion-label class="input-label">Data de Nascimento</ion-label>
-        <ion-input name="birthdate" type="date" required></ion-input>
+        <ion-input name="birthdate" type="date" [(ngModel)]="birthDate" required></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="input-field">
-        <ion-label class="input-label" >Senha</ion-label>
-        <ion-input name="password" type="password" placeholder="********" required></ion-input>
+        <ion-label class="input-label">Senha</ion-label>
+        <ion-input name="password" type="password" placeholder="********" [(ngModel)]="password" required></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="input-field">
-        <ion-label class="input-label" >Confirmar Senha</ion-label>
-        <ion-input name="confirmPassword" type="password" placeholder="********" required></ion-input>
+        <ion-label class="input-label">Confirmar Senha</ion-label>
+        <ion-input name="confirmPassword" type="password" placeholder="********" [(ngModel)]="confirmPassword" required></ion-input>
       </ion-item>
 
-            <!-- Termos de uso -->
-            <div class="terms">
-              <p>Para continuar, você deve concordar com os 
-                <a href="#">Termos de Uso e Políticas de Privacidade.</a>
-              </p>
-            </div>
+      <!-- Termos de uso -->
+      <div class="terms">
+        <p>Para continuar, você deve concordar com os 
+          <a (click)="openTermsModal()">Termos de Uso e Políticas de Privacidade.</a>
+        </p>
+      </div>
 
       <!-- Botão de Cadastro -->
       <ion-button expand="block" class="register-button" type="submit">Abrir Conta</ion-button>
@@ -56,5 +54,4 @@
       </div>
     </form>
   </div>
-
 </ion-content>

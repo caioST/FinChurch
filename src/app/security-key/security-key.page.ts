@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-security-key',
@@ -7,31 +8,35 @@ import { NavController, ToastController } from '@ionic/angular';
   styleUrls: ['./security-key.page.scss'],
 })
 export class SecurityKeyPage {
-  
   // Array para armazenar os 6 dígitos da chave de segurança
   securityKey: string[] = ['', '', '', '', '', ''];
 
-  constructor(private navCtrl: NavController, private toastCtrl: ToastController) { }
+  constructor(private navCtrl: NavController, private toastCtrl: ToastController, private afAuth: AngularFireAuth) { }
 
-  // Verifica se a chave de segurança está correta
-  verifySecurityKey() {
+  async verifySecurityKey() {
     const fullKey = this.securityKey.join('');
-    
-    if (fullKey === '273916') {
-      this.showToast('Chave de segurança válida');
-      // Implementar navegação ou lógica de sucesso
-    } else {
-      this.showToast('Chave de segurança inválida');
+
+    try {
+      // Aqui você deve validar a chave de segurança com seu back-end ou utilizar autenticação do Firebase
+      if (fullKey === '273916') {
+        this.showToast('Chave de segurança válida');
+        this.navCtrl.navigateForward('/new-password', {
+          animated: true,
+          animationDirection: 'forward'
+        });
+      } else {
+        this.showToast('Chave de segurança inválida');
+      }
+    } catch (error) {
+      this.showToast('Erro na validação da chave de segurança.');
     }
   }
 
-  // Função para reenviar o código
-  resendCode() {
+  async resendCode() {
     this.showToast('Código reenviado com sucesso!');
     // Implementar a lógica para reenviar o código
   }
 
-  // Função auxiliar para exibir mensagens Toast
   async showToast(message: string) {
     const toast = await this.toastCtrl.create({
       message: message,
@@ -41,7 +46,6 @@ export class SecurityKeyPage {
     toast.present();
   }
 
-  // Navega para a página de criar conta
   createAccount() {
     this.navCtrl.navigateForward('/register', {
       animated: true,
