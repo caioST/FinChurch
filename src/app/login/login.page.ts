@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { AngularFireAuth } from '@angular/fire/compat/auth'; // Importando o AngularFireAuth
+import { NavController, ToastController } from '@ionic/angular';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-login',
@@ -8,14 +10,20 @@ import { AngularFireAuth } from '@angular/fire/compat/auth'; // Importando o Ang
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  cpf: string = ''; // Adicionando a variável para CPF
-  password: string = ''; // Adicionando a variável para Senha
+  cpf: string = ''; // Variável para CPF
+  password: string = ''; // Variável para Senha
 
-  constructor(private navCtrl: NavController, private afAuth: AngularFireAuth) { }
+  constructor(
+    private navCtrl: NavController,
+    private afAuth: AngularFireAuth,
+    private fingerprintAIO: FingerprintAIO,
+    private toastCtrl: ToastController,
+    private firestore: AngularFirestore
+  ) { }
 
   async login() {
     try {
-      // Lógica para autenticar com Firebase ou outro serviço
+      // Lógica para autenticar com Firebase usando CPF
       const userCredential = await this.afAuth.signInWithEmailAndPassword(this.cpf, this.password);
       const user = userCredential.user;
       console.log('Usuário logado', user);
@@ -24,7 +32,61 @@ export class LoginPage {
       this.navCtrl.navigateForward('/access'); // Substitua pelo caminho correto da sua página inicial
     } catch (error) {
       console.error('Erro de login:', error);
-      // Aqui você pode mostrar um toast ou alert com a mensagem de erro
+      let message = 'Erro desconhecido';
+      if (error instanceof Error) {
+        message = error.message; // Acesse a mensagem do erro se for um objeto Error
+      }
+      const toast = await this.toastCtrl.create({
+        message: 'Erro ao fazer login: ' + message,
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
+    }
+  }
+
+  async loginWithFingerprint() {
+    try {
+      const result = await this.fingerprintAIO.show({
+        title: 'Autenticação',
+        description: 'Use sua impressão digital para fazer login',
+        disableBackup: true
+      });
+  
+      if (result) {
+        // Verificar se a impressão digital foi registrada
+        const currentUser = await this.afAuth.currentUser;
+        if (currentUser) {
+          const userDoc = await this.firestore.collection('users').doc(currentUser.uid).get().toPromise();
+          
+          if (userDoc && userDoc.exists) {
+            const userData = userDoc.data() as { fingerprintRegistered?: boolean }; // Definindo o tipo esperado
+  
+            if (userData?.fingerprintRegistered) {
+              console.log('Login com impressão digital bem-sucedido');
+              this.navCtrl.navigateForward('/access'); // Redirecionar após o login
+            } else {
+              throw new Error('Impressão digital não registrada.');
+            }
+          } else {
+            throw new Error('Usuário não encontrado.');
+          }
+        } else {
+          throw new Error('Usuário não autenticado.');
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao autenticar com impressão digital:', error);
+      let message = 'Erro desconhecido';
+      if (error instanceof Error) {
+        message = error.message; // Acesse a mensagem do erro se for um objeto Error
+      }
+      const toast = await this.toastCtrl.create({
+        message: 'Erro ao autenticar: ' + message,
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
     }
   }
 

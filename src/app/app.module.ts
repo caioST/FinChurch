@@ -12,6 +12,7 @@ import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 // Firebase modules
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore'; // Importando o Firestore
 import { environment } from '../environments/environment';
 import { TermsModalComponent } from './terms-modal/terms-modal.component';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
+    AngularFirestoreModule, // Adicione o módulo Firestore aqui
     FormsModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FingerprintAIO],
