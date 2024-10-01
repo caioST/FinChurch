@@ -4,16 +4,14 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  cpf: string = '';  // Variável para armazenar o CPF do usuário
-  password: string = '';  // Variável para armazenar a senha do usuário
-
+  cpf: string = '';
+  password: string = '';
 
   constructor(
     private navCtrl: NavController,
@@ -21,31 +19,47 @@ export class LoginPage {
     private fingerprintAIO: FingerprintAIO,
     private toastCtrl: ToastController,
     private firestore: AngularFirestore
-  ) { }
+  ) {}
 
-  // Método assíncrono para autenticar o usuário usando CPF e senha
+  // Verifica a necessidade de revalidação da impressão digital ao entrar na página
+  async ionViewDidEnter() {
+    const currentUser = await this.afAuth.currentUser;
+    if (currentUser) {
+      const userDoc = await this.firestore.collection('users').doc(currentUser.uid).get().toPromise();
+      if (userDoc && userDoc.exists) {
+        const userData = userDoc.data() as { fingerprintNeedsRevalidation?: boolean };
+        
+        if (userData?.fingerprintNeedsRevalidation) {
+          await this.revalidateFingerprint();
+        }
+      }
+    }
+  }
+
   async login() {
     try {
-      // Lógica para autenticar com Firebase usando CPF e senha
       const userCredential = await this.afAuth.signInWithEmailAndPassword(this.cpf, this.password);
-      const user = userCredential.user;  // Obtem o usuário autenticado
-      console.log('Usuário logado', user);  // Log para verificar o usuário logado
-
-      // Redirecionar após o login bem-sucedido
-      this.navCtrl.navigateForward('/access'); // Navega para a página inicial do aplicativo
-    } catch (error) {
-      console.error('Erro de login:', error);  // Log de erro no console
-      let message = 'Erro desconhecido';  // Mensagem padrão de erro
-      if (error instanceof Error) {
-        message = error.message;  // Acessa a mensagem do erro se for um objeto Error
+      const user = userCredential.user;
+  
+      if (user) {
+        await this.firestore.collection('users').doc(user.uid).update({
+          fingerprintNeedsRevalidation: true
+        });
+        console.log('Usuário logado, impressão digital marcada para revalidação');
+        this.navCtrl.navigateForward('/access'); 
       }
-      // Criação de um toast para exibir a mensagem de erro ao usuário
+    } catch (error) {
+      console.error('Erro de login:', error);
+      let message = 'Erro desconhecido';
+      if (error instanceof Error) {
+        message = error.message;
+      }
       const toast = await this.toastCtrl.create({
-        message: 'Erro ao fazer login: ' + message,  // Mensagem de erro personalizada
-        duration: 2000,  // Duração do toast (2 segundos)
-        color: 'danger'  // Cor do toast para indicar erro (vermelho)
+        message: 'Erro ao fazer login: ' + message,
+        duration: 2000,
+        color: 'danger'
       });
-      toast.present();  // Apresenta o toast ao usuário
+      toast.present(); 
     }
   }
 
@@ -58,7 +72,6 @@ export class LoginPage {
       });
 
       if (result) {
-        // Verificar se a impressão digital foi registrada
         const currentUser = await this.afAuth.currentUser;
         if (currentUser) {
           const userDoc = await this.firestore.collection('users').doc(currentUser.uid).get().toPromise();
@@ -66,12 +79,10 @@ export class LoginPage {
           if (userDoc && userDoc.exists) {
             const userData = userDoc.data() as { fingerprintRegistered?: boolean, fingerprintNeedsRevalidation?: boolean };
 
-            // Verifica se a impressão digital foi registrada e não requer revalidação
             if (userData?.fingerprintRegistered && !userData?.fingerprintNeedsRevalidation) {
               console.log('Login com impressão digital bem-sucedido');
               this.navCtrl.navigateForward('/access');
             } else if (userData?.fingerprintRegistered && userData?.fingerprintNeedsRevalidation) {
-              // Revalide a impressão digital
               await this.revalidateFingerprint();
               console.log('Impressão digital revalidada com sucesso.');
               this.navCtrl.navigateForward('/access');
@@ -100,7 +111,6 @@ export class LoginPage {
     }
   }
 
-  // Método para revalidar a impressão digital após login com CPF e senha
   async revalidateFingerprint() {
     const currentUser = await this.afAuth.currentUser;
     if (currentUser) {
@@ -111,12 +121,10 @@ export class LoginPage {
     }
   }
 
-  // Método para redirecionar para a página de recuperação de senha
   resetPassword() {
     this.navCtrl.navigateForward('/forgot-password');
   }
 
-  // Método para redirecionar para a página de registro
   goToRegister() {
     this.navCtrl.navigateForward('/register');
   }
