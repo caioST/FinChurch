@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NavController, ToastController } from '@ionic/angular';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
 @Component({
@@ -15,32 +16,38 @@ export class ForgotPasswordPage {
   constructor(
     private navCtrl: NavController,               
     private toastCtrl: ToastController,           
-    private afAuth: AngularFireAuth               
+    private afAuth: AngularFireAuth,
+    private firestore: AngularFirestore               
   ) { }
 
   // Método assíncrono para envio do e-mail de redefinição de senha
-  async sendResetEmail() {
-    try {
-      // Envio do e-mail de recuperação de senha usando o Firebase
-      await this.afAuth.sendPasswordResetEmail(this.email);
-
-      // Mensagem de sucesso usando o ToastController
-      const toast = await this.toastCtrl.create({
-        message: 'E-mail de recuperação enviado com sucesso!',
-        duration: 2000,  
-        color: 'success'
-      });
-      toast.present();  
-    } catch (error) {
-      // Em caso de erro, exibe uma mensagem de erro ao usuário
-      const toast = await this.toastCtrl.create({
-        message: 'Erro ao enviar e-mail de recuperação.', 
-        duration: 2000,  
-        color: 'danger'  
-      });
-      toast.present();
+    async sendResetEmail() {
+      try {
+        await this.afAuth.sendPasswordResetEmail(this.email);
+    
+        // Marcar no Firestore que a impressão digital precisa ser revalidada
+        const currentUser = await this.afAuth.currentUser;
+        if (currentUser) {
+          await this.firestore.collection('users').doc(currentUser.uid).update({
+            fingerprintNeedsRevalidation: true
+          });
+        }
+    
+        const toast = await this.toastCtrl.create({
+          message: 'E-mail de recuperação enviado com sucesso!',
+          duration: 2000,
+          color: 'success'
+        });
+        toast.present();
+      } catch (error) {
+        const toast = await this.toastCtrl.create({
+          message: 'Erro ao enviar e-mail de recuperação.',
+          duration: 2000,
+          color: 'danger'
+        });
+        toast.present();
+      }
     }
-  }
 
   // Navegar até a página de login
   goToLogin() {
