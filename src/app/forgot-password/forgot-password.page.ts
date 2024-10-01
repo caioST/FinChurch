@@ -1,69 +1,117 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NavController, ToastController } from '@ionic/angular';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-forgot-password',  
-  templateUrl: './forgot-password.page.html',  
-  styleUrls: ['./forgot-password.page.scss'],  
+  selector: 'app-forgot-password',
+  templateUrl: './forgot-password.page.html',
+  styleUrls: ['./forgot-password.page.scss'],
 })
 export class ForgotPasswordPage {
-  email: string = '';  // Armazenamento do e-mail do usuário
-
+  email: string = '';
+  resetCode: string = '';
+  newPassword: string = '';
+  confirmPassword: string = '';
+  codeSent: boolean = false; // Variável para controlar o estado de envio do código
 
   constructor(
-    private navCtrl: NavController,               
-    private toastCtrl: ToastController,           
+    private navCtrl: NavController,
+    private toastCtrl: ToastController,
     private afAuth: AngularFireAuth,
-    private firestore: AngularFirestore               
-  ) { }
+    private http: HttpClient // Adicione o HttpClient
+  ) {}
 
-  // Método assíncrono para envio do e-mail de redefinição de senha
-    async sendResetEmail() {
-      try {
-        await this.afAuth.sendPasswordResetEmail(this.email);
-    
-        // Marcar no Firestore que a impressão digital precisa ser revalidada
-        const currentUser = await this.afAuth.currentUser;
-        if (currentUser) {
-          await this.firestore.collection('users').doc(currentUser.uid).update({
-            fingerprintNeedsRevalidation: true
-          });
-        }
-    
+  async requestResetCode() {
+    try {
+      await this.http.post('http://localhost:3000/sendResetCode', { email: this.email }).toPromise();
+      const toast = await this.toastCtrl.create({
+        message: 'Código de redefinição enviado para o seu e-mail.',
+        duration: 2000,
+        color: 'success'
+      });
+      toast.present();
+      this.codeSent = true; // Define que o código foi enviado
+    } catch (error) {
+      const toast = await this.toastCtrl.create({
+        message: 'Erro ao enviar o código.',
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
+    }
+  }
+
+  async verifyResetCode() {
+    try {
+      // Aqui você deve verificar se o código está correto
+      const response = await this.http.post('http://localhost:3000/verifyResetCode', { 
+        email: this.email, 
+        resetCode: this.resetCode 
+      }).toPromise();
+
+      if (response) {
         const toast = await this.toastCtrl.create({
-          message: 'E-mail de recuperação enviado com sucesso!',
+          message: 'Código verificado com sucesso.',
           duration: 2000,
           color: 'success'
         });
         toast.present();
-      } catch (error) {
-        const toast = await this.toastCtrl.create({
-          message: 'Erro ao enviar e-mail de recuperação.',
-          duration: 2000,
-          color: 'danger'
-        });
-        toast.present();
+        this.navCtrl.navigateForward('/new-password'); // Navega para a tela de nova senha
       }
+    } catch (error) {
+      const toast = await this.toastCtrl.create({
+        message: 'Código inválido ou expirado.',
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
+    }
+  }
+
+  async resetPassword() {
+    // Verifique se as senhas correspondem
+    if (this.newPassword !== this.confirmPassword) {
+      const toast = await this.toastCtrl.create({
+        message: 'As senhas não coincidem.',
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
+      return;
     }
 
-  // Navegar até a página de login
-  goToLogin() {
+    // Aqui você deve redefinir a senha no Firebase
+    try {
+      await this.afAuth.confirmPasswordReset(this.resetCode, this.newPassword);
+      const toast = await this.toastCtrl.create({
+        message: 'Senha redefinida com sucesso.',
+        duration: 2000,
+        color: 'success'
+      });
+      toast.present();
+      this.navCtrl.navigateBack('/login');
+    } catch (error) {
+      const toast = await this.toastCtrl.create({
+        message: 'Erro ao redefinir a senha.',
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
+    }
+  }
 
-    this.navCtrl.navigateForward('login', {
-      animated: true,  
-      animationDirection: 'forward'  
+  goToLogin() {
+    this.navCtrl.navigateForward('/login', { 
+      animated: true, 
+      animationDirection: 'forward' 
     });
   }
 
-  // Navegar até a página de registro (criar conta)
   createAccount() {
-    
     this.navCtrl.navigateForward('/register', {
-      animated: true,  
-      animationDirection: 'forward' 
+      animated: true,
+      animationDirection: 'forward'
     });
   }
 }

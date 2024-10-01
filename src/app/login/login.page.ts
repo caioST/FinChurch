@@ -20,10 +20,9 @@ export class LoginPage {
     private fingerprintAIO: FingerprintAIO,
     private toastCtrl: ToastController,
     private firestore: AngularFirestore,
-    private http: HttpClient // Adicione o HttpClient
+    private http: HttpClient 
   ) {}
 
-  // Verifica a necessidade de revalidação da impressão digital ao entrar na página
   async ionViewDidEnter() {
     const currentUser = await this.afAuth.currentUser;
     if (currentUser) {
@@ -52,10 +51,7 @@ export class LoginPage {
       }
     } catch (error) {
       console.error('Erro de login:', error);
-      let message = 'Erro desconhecido';
-      if (error instanceof Error) {
-        message = error.message;
-      }
+      const message = error instanceof Error ? error.message : 'Erro desconhecido';
       const toast = await this.toastCtrl.create({
         message: 'Erro ao fazer login: ' + message,
         duration: 2000,
@@ -87,7 +83,6 @@ export class LoginPage {
     }
   }
 
-  // Defina a função de revalidação da impressão digital
   async revalidateFingerprint() {
     try {
       await this.fingerprintAIO.show({
@@ -98,9 +93,8 @@ export class LoginPage {
       
       const currentUser = await this.afAuth.currentUser;
       if (currentUser) {
-        // Atualiza a necessidade de revalidação no Firestore
         await this.firestore.collection('users').doc(currentUser.uid).update({
-          fingerprintNeedsRevalidation: false // Atualiza a necessidade de revalidação
+          fingerprintNeedsRevalidation: false 
         });
         console.log('Impressão digital revalidada com sucesso.');
       }
@@ -115,5 +109,27 @@ export class LoginPage {
     }
   }
 
-  // Outros métodos...
+  goToRegister() {
+    this.navCtrl.navigateForward('/register'); 
+  }
+
+  async loginWithFingerprint() {
+    try {
+      const result = await this.fingerprintAIO.show({
+        title: 'Autenticação com Impressão Digital',
+        disableBackup: true,
+      });
+      if (result) {
+        this.navCtrl.navigateForward('/access'); 
+      }
+    } catch (error) {
+      console.error('Erro ao autenticar com impressão digital:', error);
+      const toast = await this.toastCtrl.create({
+        message: 'Erro ao autenticar com impressão digital.',
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
+    }
+  }
 }
