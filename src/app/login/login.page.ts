@@ -3,6 +3,7 @@ import { NavController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginPage {
     private afAuth: AngularFireAuth,
     private fingerprintAIO: FingerprintAIO,
     private toastCtrl: ToastController,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private http: HttpClient // Adicione o HttpClient
   ) {}
 
   // Verifica a necessidade de revalidação da impressão digital ao entrar na página
@@ -63,47 +65,21 @@ export class LoginPage {
     }
   }
 
-  async loginWithFingerprint() {
+  async resetPassword() {
     try {
-      const result = await this.fingerprintAIO.show({
-        title: 'Autenticação',
-        description: 'Use sua impressão digital para fazer login',
-        disableBackup: true
-      });
-
-      if (result) {
-        const currentUser = await this.afAuth.currentUser;
-        if (currentUser) {
-          const userDoc = await this.firestore.collection('users').doc(currentUser.uid).get().toPromise();
-
-          if (userDoc && userDoc.exists) {
-            const userData = userDoc.data() as { fingerprintRegistered?: boolean, fingerprintNeedsRevalidation?: boolean };
-
-            if (userData?.fingerprintRegistered && !userData?.fingerprintNeedsRevalidation) {
-              console.log('Login com impressão digital bem-sucedido');
-              this.navCtrl.navigateForward('/access');
-            } else if (userData?.fingerprintRegistered && userData?.fingerprintNeedsRevalidation) {
-              await this.revalidateFingerprint();
-              console.log('Impressão digital revalidada com sucesso.');
-              this.navCtrl.navigateForward('/access');
-            } else {
-              throw new Error('Impressão digital não registrada.');
-            }
-          } else {
-            throw new Error('Usuário não encontrado.');
-          }
-        } else {
-          throw new Error('Usuário não autenticado.');
-        }
-      }
-    } catch (error) {
-      console.error('Erro ao autenticar com impressão digital:', error);
-      let message = 'Erro desconhecido';
-      if (error instanceof Error) {
-        message = error.message;
-      }
+      const email = this.cpf; // Supondo que o CPF é o e-mail
+      await this.http.post('https://<YOUR_CLOUD_FUNCTION_URL>/sendResetCode', { email }).toPromise();
       const toast = await this.toastCtrl.create({
-        message: 'Erro ao autenticar: ' + message,
+        message: 'Código de recuperação enviado para o e-mail.',
+        duration: 2000,
+        color: 'success'
+      });
+      toast.present();
+      this.navCtrl.navigateForward('/forgot-password'); // Navega para a tela de redefinição de senha
+    } catch (error) {
+      console.error('Erro ao enviar código:', error);
+      const toast = await this.toastCtrl.create({
+        message: 'Erro ao enviar código de recuperação.',
         duration: 2000,
         color: 'danger'
       });
@@ -111,21 +87,33 @@ export class LoginPage {
     }
   }
 
+  // Defina a função de revalidação da impressão digital
   async revalidateFingerprint() {
-    const currentUser = await this.afAuth.currentUser;
-    if (currentUser) {
-      await this.firestore.collection('users').doc(currentUser.uid).update({
-        fingerprintNeedsRevalidation: false
+    try {
+      await this.fingerprintAIO.show({
+        title: 'Autenticação',
+        disableBackup: true,
+        description: 'Por favor, autentique-se usando a impressão digital',
       });
-      console.log('Impressão digital revalidada com sucesso.');
+      
+      const currentUser = await this.afAuth.currentUser;
+      if (currentUser) {
+        // Atualiza a necessidade de revalidação no Firestore
+        await this.firestore.collection('users').doc(currentUser.uid).update({
+          fingerprintNeedsRevalidation: false // Atualiza a necessidade de revalidação
+        });
+        console.log('Impressão digital revalidada com sucesso.');
+      }
+    } catch (error) {
+      console.error('Erro ao revalidar impressão digital:', error);
+      const toast = await this.toastCtrl.create({
+        message: 'Erro ao revalidar impressão digital.',
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
     }
   }
 
-  resetPassword() {
-    this.navCtrl.navigateForward('/forgot-password');
-  }
-
-  goToRegister() {
-    this.navCtrl.navigateForward('/register');
-  }
+  // Outros métodos...
 }
