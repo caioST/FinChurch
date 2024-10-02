@@ -24,7 +24,7 @@ export class ForgotPasswordPage {
 
   async requestResetCode() {
     try {
-      await this.http.post('http://localhost:3000/sendResetCode', { email: this.email }).toPromise();
+      await this.http.post('http://localhost:8100/sendResetCode', { email: this.email }).toPromise();
       const toast = await this.toastCtrl.create({
         message: 'Código de redefinição enviado para o seu e-mail.',
         duration: 2000,
@@ -45,7 +45,7 @@ export class ForgotPasswordPage {
   async verifyResetCode() {
     try {
       // Aqui você deve verificar se o código está correto
-      const response = await this.http.post('http://localhost:3000/verifyResetCode', { 
+      const response = await this.http.post('http://localhost:8100/verifyResetCode', { 
         email: this.email, 
         resetCode: this.resetCode 
       }).toPromise();
