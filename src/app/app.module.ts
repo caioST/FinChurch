@@ -17,6 +17,7 @@ import { environment } from '../environments/environment';
 import { TermsModalComponent } from './terms-modal/terms-modal.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ErrorHandler } from './services/error-handler.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FingerprintAIO],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FingerprintAIO, ErrorHandler],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}
