@@ -10,7 +10,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['./forgot-password.page.scss'],  
 })
 export class ForgotPasswordPage {
-  email: string = '';  // Armazenamento do e-mail do usuário
+  email: string = '';  // Armazenamento do e-mail do usuário aaaaa
 
 
   constructor(
