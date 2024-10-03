@@ -1,0 +1,157 @@
+[33mcommit 2eab60bde43007087466fe4b3f5eeaf99c63350f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/version-atual[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mversion-atual[m[33m)[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Tue Oct 1 21:09:54 2024 -0300
+
+    aut
+
+[33mcommit bfe827ce54ed722eb54c82adf1e0243d850d0825[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Tue Oct 1 16:55:02 2024 -0300
+
+    alt forgot
+
+[33mcommit 9d5c584f10a93a09d2fab54c7eec3c34f3047943[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Tue Oct 1 14:09:59 2024 -0300
+
+    config firebase aut forgot-pass
+
+[33mcommit f67a77344979df139d9181604c42766670658b56[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Tue Oct 1 10:15:15 2024 -0300
+
+    alt validacao fingerprint
+
+[33mcommit 181730b21b7b06ed42eaabb424bf03d3f93be1ee[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Tue Oct 1 09:38:24 2024 -0300
+
+    alt validacao imoressao digital
+
+[33mcommit 2263a131a1e662ef7426647ae79070d199b4a365[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Fri Sep 27 15:28:02 2024 -0300
+
+    add comentarios
+
+[33mcommit 69ec91873f40774fbdfc2e2bb142e844d14f40f9[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Fri Sep 27 14:44:18 2024 -0300
+
+    config fingerprint login
+
+[33mcommit a23cebeb7aa9006312cef7b0cbe06ad2686516eb[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Fri Sep 27 12:43:08 2024 -0300
+
+    conf capacitor android, config firebase
+
+[33mcommit 74a50fd648dd6158516a287a1f43d9d6179af8bd[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Fri Sep 27 12:04:19 2024 -0300
+
+    criacao rotas, aut pag register e fingerprint
+
+[33mcommit ffc01e39f50b8f666535af4c82022a8b4e612b7f[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Thu Sep 26 22:15:48 2024 -0300
+
+    config firebase project
+
+[33mcommit 8807d7e284e15e6bfb6ab8481499a6df34462933[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Thu Sep 26 14:52:29 2024 -0300
+
+    alt css security-key
+
+[33mcommit 2f42c3582494efb55abca53fee04816362ce28cb[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Thu Sep 26 13:45:57 2024 -0300
+
+    alt register criacao telas de recuperacao
+
+[33mcommit e0380a0e6728342a908acd22f84cd8c4030043a0[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Wed Sep 25 22:17:17 2024 -0300
+
+    alteracoes
+
+[33mcommit 4ce3eaffbc757e5a03779ce6c78b5dccb0b9d1d1[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Wed Sep 25 21:59:54 2024 -0300
+
+    criacao capacitor build apk android
+
+[33mcommit 78f417fc8bc832d38b36197f85fbd5907de24f78[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Wed Sep 25 16:54:15 2024 -0300
+
+    criacao pagina forgot-password ajuste rotas entre as paginas
+
+[33mcommit ce706f2f88f34361a9b604298a9572be1d4c6907[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Wed Sep 25 14:53:54 2024 -0300
+
+    criacao paginas forgot-password, security-key, new-password, password-changed, fingerprint-authentication
+
+[33mcommit a401dcf453047e8b1375a0489f97fa65aa599b67[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Wed Sep 25 14:32:23 2024 -0300
+
+    alt camp register criacao rotas register para login
+    
+    alt camp register criacao rotas register para login
+
+[33mcommit 24aceafea74624c85a01a7b03139dd90823326a6[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Wed Sep 25 13:38:38 2024 -0300
+
+    estilizacao pagina register
+
+[33mcommit ab67c11b3045f44de48c93bbb107fe974dbe8d7f[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Mon Sep 23 14:12:34 2024 -0300
+
+    criação de rotas para register
+
+[33mcommit d05e319b088a7b5555d1969a013e35b800470a44[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Mon Sep 23 14:12:14 2024 -0300
+
+    first create register page
+
+[33mcommit 13f2fa5a4f52b323b633b8457c17fdb11adf091f[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Fri Sep 20 16:35:36 2024 -0300
+
+    ajuste campos login page
+
+[33mcommit 41374586f9c1a0f227e1fbcd29f0192c76ffa7db[m[33m ([m[1;31mupstream/master[m[33m, [m[1;31mupstream/HEAD[m[33m)[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Thu Sep 19 20:45:37 2024 -0300
+
+    estilização login page
+
+[33mcommit 4c1260d6b3f158a111cb811d724999f0ee7d6384[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Thu Sep 19 15:58:50 2024 -0300
+
+    criação página login e alteração rotas
+
+[33mcommit 6af18d7b47ed31d740eaaf4c37c3bc1edc6aa756[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Thu Sep 19 09:49:14 2024 -0300
+
+    criação tela splash logo
+
+[33mcommit fa0e5783572523ec6c142f04da9f27b1894e75ad[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Thu Sep 19 08:31:15 2024 -0300
+
+    Criação inicial projeto, telas access, login e register
+
+[33mcommit 5fd6ca1a28883d0600d0bb8902234a404eb4475e[m
+Author: caioST <dasilvacaio919@gmail.com>
+Date:   Thu Sep 19 08:17:25 2024 -0300
+
+    Initial commit
