@@ -3,7 +3,6 @@ import { NavController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +19,6 @@ export class LoginPage {
     private fingerprintAIO: FingerprintAIO,
     private toastCtrl: ToastController,
     private firestore: AngularFirestore,
-    private http: HttpClient 
   ) {}
 
   async ionViewDidEnter() {
@@ -61,26 +59,9 @@ export class LoginPage {
     }
   }
 
-  async resetPassword() {
-    try {
-      const email = this.cpf; // Supondo que o CPF é o e-mail
-      await this.http.post('https://<YOUR_CLOUD_FUNCTION_URL>/sendResetCode', { email }).toPromise();
-      const toast = await this.toastCtrl.create({
-        message: 'Código de recuperação enviado para o e-mail.',
-        duration: 2000,
-        color: 'success'
-      });
-      toast.present();
-      this.navCtrl.navigateForward('/forgot-password'); // Navega para a tela de redefinição de senha
-    } catch (error) {
-      console.error('Erro ao enviar código:', error);
-      const toast = await this.toastCtrl.create({
-        message: 'Erro ao enviar código de recuperação.',
-        duration: 2000,
-        color: 'danger'
-      });
-      toast.present();
-    }
+  // Método para redirecionar para a página de redefinição de senha
+  goToResetPassword() {
+    this.navCtrl.navigateForward('/forgot-password'); // Navega para a página de redefinição de senha
   }
 
   async revalidateFingerprint() {
