@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -22,12 +23,13 @@ import { ErrorHandler } from './services/error-handler.service';
 @NgModule({
   declarations: [
     AppComponent,
-    TermsModalComponent
+    TermsModalComponent,
   ],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule, // Adicione o módulo Firestore aqui

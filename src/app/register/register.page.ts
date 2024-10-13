@@ -6,6 +6,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { TermsModalComponent } from '../terms-modal/terms-modal.component';
 import { ErrorHandler } from '../services/error-handler.service';
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -120,7 +121,7 @@ export class RegisterPage {
     if (!cpf) {
       return null;
     }
-    const cpfRegex = /^\d{3}\.\d{ 3}\.\d{3}\-\d{2}$/;
+    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/; // Remover o espaço
     if (!cpfRegex.test(cpf)) {
       return { cpfInvalid: true };
     }
@@ -133,7 +134,7 @@ export class RegisterPage {
     if (!phone) {
       return null;
     }
-    const phoneRegex = /^\d{2} \d{4}\-\d{4}$/;
+    const phoneRegex = /^\(\d{2}\) \d{5}-\d{4}$|^\(\d{2}\) \d{4}-\d{4}$/;
     if (!phoneRegex.test(phone)) {
       return { phoneInvalid: true };
     }
@@ -146,7 +147,7 @@ export class RegisterPage {
     if (!password) {
       return null;
     }
-    const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{6,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{6,}$/;
     if (!passwordRegex.test(password)) {
       return { passwordInvalid: true };
     }
