@@ -6,7 +6,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { TermsModalComponent } from '../terms-modal/terms-modal.component';
 import { ErrorHandler } from '../services/error-handler.service';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -27,7 +26,7 @@ export class RegisterPage {
   registerForm = this.formBuilder.group({
     fullName: ['', Validators.required],
     cpf: ['', [Validators.required, this.cpfValidator]],
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email, this.emailValidator]],
     phone: ['', [Validators.required, this.phoneValidator]],
     birthDate: ['', Validators.required],
     password: ['', [Validators.required, this.passwordValidator]],
@@ -48,7 +47,6 @@ export class RegisterPage {
   async register() {
     // Verificação se os termos foram aceitos
     if (!this.termsAccepted) {
-      // Se os termos não foram aceitos, exibe uma mensagem de erro
       const toast = await this.toastCtrl.create({
         message: 'Você precisa aceitar os Termos de Uso antes de continuar.',
         duration: 2000,
@@ -60,7 +58,6 @@ export class RegisterPage {
 
     // Verificação do formulário de registro
     if (!this.registerForm.valid) {
-      // Se o formulário não for válido, exibe uma mensagem de erro
       const toast = await this.toastCtrl.create({
         message: 'Por favor, preencha todos os campos corretamente.',
         duration: 2000,
@@ -70,25 +67,25 @@ export class RegisterPage {
       return;
     }
 
+    // Capturando os valores do formulário
+    const email = this.registerForm.get('email')?.value as string; // Captura o valor do e-mail
+    const password = this.registerForm.get('password')?.value as string; // Captura o valor da senha
+
     try {
       // Cria um novo usuário com e-mail e senha (senha em texto simples, Firebase irá criptografar)
-      await this.afAuth.createUserWithEmailAndPassword(this.email, this.password);
-      // Exibe mensagem de sucesso após a criação da conta
+      await this.afAuth.createUserWithEmailAndPassword(email, password);
       const toast = await this.toastCtrl.create({
         message: 'Conta criada com sucesso!',
         duration: 2000,
         color: 'success'
       });
       toast.present();
-    
-      // Redirecionar para a página de cadastro de impressão digital
       this.navCtrl.navigateForward('/fingerprint-authentication'); // Navega para a próxima página
-    
+
     } catch (error) {
       // Lida com erros durante a criação do usuário
       this.errorHandler.handleError(error);
     }
-    
   }
 
   // Método para redirecionar para a página de login
@@ -101,18 +98,17 @@ export class RegisterPage {
 
   // Método assíncrono para abrir o modal de termos de uso
   async openTermsModal() {
-    const modal = await this.modalCtrl.create({ // Cria uma instância do modal
-      component: TermsModalComponent, // Define o componente do modal
+    const modal = await this.modalCtrl.create({
+      component: TermsModalComponent,
     });
 
-    // Após o modal ser fechado, verifica se os termos foram aceitos
     modal.onDidDismiss().then((data) => {
       if (data.data && data.data.accepted) {
         this.termsAccepted = true; // Define como aceito se os termos foram aceitos
       }
     });
 
-    await modal.present(); // Apresenta o modal ao usuário
+    await modal.present();
   }
 
   // Validador de CPF
@@ -121,7 +117,7 @@ export class RegisterPage {
     if (!cpf) {
       return null;
     }
-    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/; // Remover o espaço
+    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/; // Validação de formato de CPF
     if (!cpfRegex.test(cpf)) {
       return { cpfInvalid: true };
     }
@@ -141,6 +137,19 @@ export class RegisterPage {
     return null;
   }
 
+  // Validador de e-mail
+  emailValidator(control: any) {
+    const email = control.value;
+    if (!email) {
+      return null; // Se o campo de e-mail estiver vazio, não aplica validação
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      return { emailInvalid: true }; // Retorna erro se o e-mail não for válido
+    }
+    return null; // Retorna null se o e-mail for válido
+  }
+
   // Validador de senha
   passwordValidator(control: any) {
     const password = control.value;
@@ -156,13 +165,15 @@ export class RegisterPage {
 
   // Validador de confirmação de senha
   confirmPasswordValidator(control: any) {
-    const confirmPassword = control.value;
+    const confirmPassword = control.value; // Valor do campo de confirmação de senha
+    const password = control.parent?.get('password')?.value; // Valor do campo de senha
+
     if (!confirmPassword) {
-      return null;
+      return null; // Se o campo de confirmação de senha estiver vazio, não aplica validação
     }
-    if (confirmPassword !== this.password) {
-      return { confirmPasswordInvalid: true };
+    if (confirmPassword !== password) {
+      return { confirmPasswordInvalid: true }; // Retorna erro se as senhas não coincidirem
     }
-    return null;
+    return null; // Retorna null se tudo estiver correto
   }
 }
