@@ -16,14 +16,19 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore'; // Importando o Firestore
 import { environment } from '../environments/environment';
 import { TermsModalComponent } from './terms-modal/terms-modal.component';
+import { CategoriasComponent } from './categorias/categorias.component';
+
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FinanceService } from './services/finance.service';
 import { ErrorHandler } from './services/error-handler.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TermsModalComponent,
+    CategoriasComponent,
   ],
   imports: [
     BrowserModule, 
@@ -36,7 +41,7 @@ import { ErrorHandler } from './services/error-handler.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FingerprintAIO, ErrorHandler],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FingerprintAIO, FinanceService, ErrorHandler],
 
   bootstrap: [AppComponent],
 })

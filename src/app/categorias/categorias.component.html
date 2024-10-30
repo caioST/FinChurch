@@ -1,0 +1,54 @@
+<ion-content class="page-categorias">
+  <!-- Cabeçalho com o saldo total e despesa total -->
+  <ion-header>
+    <ion-toolbar color="light">
+      <ion-title>Categorias</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="saldo-header">
+    <div class="saldo-info">
+      <div class="saldo-total">Saldo Total: {{ saldos.total | currency:'BRL' }}</div>
+      <div class="despesa-total">Despesa Total: {{ saldos.despesas | currency:'BRL' }}</div>
+    </div>
+    <div class="progress-bar">
+      <ion-progress-bar [value]="saldos.despesas / (saldos.despesas + saldos.total)"></ion-progress-bar>
+      <div class="progress-text">
+        {{ (saldos.despesas / (saldos.despesas + saldos.total)) * 100 | number:'1.0-0' }}% De Suas Despesas, Parece Bom.
+      </div>
+    </div>
+  </div>
+
+  <!-- Listagem das categorias -->
+  <ion-list class="categoria-lista">
+    <ion-item *ngFor="let categoria of categorias" class="categoria-item" (click)="selecionarSubcategoria(categoria.id, categoria.subcolecao[0]?.id)" detail>
+      <ion-icon [name]="categoria.icon || 'star'" class="icon"></ion-icon>
+      <ion-label>
+        <h2 class="categoria-nome">{{ categoria.nome }}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Barra de navegação inferior -->
+  <ion-footer class="nav-footer">
+    <ion-toolbar>
+      <ion-buttons>
+        <ion-button>
+          <ion-icon name="home-outline"></ion-icon>
+        </ion-button>
+        <ion-button>
+          <ion-icon name="analytics-outline"></ion-icon>
+        </ion-button>
+        <ion-button>
+          <ion-icon name="swap-horizontal-outline"></ion-icon>
+        </ion-button>
+        <ion-button>
+          <ion-icon name="albums-outline"></ion-icon>
+        </ion-button>
+        <ion-button>
+          <ion-icon name="person-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>

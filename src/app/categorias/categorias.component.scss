@@ -1,0 +1,112 @@
+.page-categorias {
+    --background: #00d1a0; // Fundo verde
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; // Mudar para alinhar o conteúdo ao topo
+    padding: 16px;
+    height: 100vh;
+}
+
+.saldo-header {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+    .saldo-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+
+        .saldo-total {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00a17a;
+        }
+
+        .despesa-total {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6347;
+        }
+    }
+
+    .progress-bar {
+        ion-progress-bar {
+            height: 10px;
+            --progress-background: #00a17a;
+            --background: #d9d9d9;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            font-size: 1rem;
+            color: #666;
+            text-align: center;
+            margin-top: 8px;
+        }
+    }
+}
+
+.categoria-lista {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding-top: 16px;
+
+    .categoria-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #e0f0ff;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+
+        &:hover {
+            transform: scale(1.02);
+        }
+
+        .icon {
+            font-size: 2.5rem;
+            color: #00a17a;
+            margin-bottom: 8px;
+        }
+
+        .categoria-nome {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+    }
+}
+
+.nav-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    ion-toolbar {
+        --background: #DFF7E2;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        border-top: 1px solid #dcdcdc;
+
+        ion-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+
+            ion-icon {
+                font-size: 1.6rem;
+                color: #333;
+            }
+        }
+    }
+}

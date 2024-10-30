@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { CategoriasComponent } from './categorias/categorias.component';
+
 
 const routes: Routes = [
   {
@@ -46,32 +48,13 @@ const routes: Routes = [
   {
     path: 'fingerprint-authentication',
     loadChildren: () => import('./fingerprint-authentication/fingerprint-authentication.module').then( m => m.FingerprintAuthenticationPageModule)
-  },  {
-    path: 'dashboard',
-    loadChildren: () => import('./pages/dashboard/dashboard.module').then( m => m.DashboardPageModule)
-  },
-  {
-    path: 'report',
-    loadChildren: () => import('./pages/report/report.module').then( m => m.ReportPageModule)
-  },
-  {
-    path: 'transfer',
-    loadChildren: () => import('./pages/transfer/transfer.module').then( m => m.TransferPageModule)
-  },
-  {
-    path: 'finances',
-    loadChildren: () => import('./pages/finances/finances.module').then( m => m.FinancesPageModule)
-  },
-  {
-    path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
-  },
-  {
-    path: 'list-categories',
-    loadChildren: () => import('./categories/list-categories/list-categories.module').then( m => m.ListCategoriesPageModule)
   },
 
+  {
+    path: 'categorias',  // Defina o nome da rota
+    component:  CategoriasComponent
 
+  },
 ];
 
 @NgModule({
