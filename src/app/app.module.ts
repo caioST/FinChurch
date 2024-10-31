@@ -37,7 +37,7 @@ import { ErrorHandler } from './services/error-handler.service';
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFirestoreModule, // Adicione o módulo Firestore aqui
+    AngularFirestoreModule,
     FormsModule,
     HttpClientModule
   ],

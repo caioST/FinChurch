@@ -2,38 +2,43 @@
     --background: #00d1a0; // Fundo verde
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; // Mudar para alinhar o conteúdo ao topo
     padding: 16px;
     height: 100vh;
 }
 
 .saldo-header {
-    background-color: #ffffff;
+    //background-color: #ffffff;
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 16px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    //box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .saldo-info {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
+        width: 100%;
+        margin-top: 25px;
 
         .saldo-total {
-            font-size: 1.8rem;
+            font-size: 24px;
             font-weight: bold;
-            color: #00a17a;
+            color: #F1FFF3;
         }
 
         .despesa-total {
-            font-size: 1.8rem;
+            font-size: 24px;
             font-weight: bold;
-            color: #ff6347;
+            color: #0068FF;
         }
     }
 
     .progress-bar {
+        width: 100%;
+        margin-top: 8px;
+
         ion-progress-bar {
             height: 10px;
             --progress-background: #00a17a;
@@ -50,40 +55,22 @@
     }
 }
 
-.categoria-lista {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding-top: 16px;
+.categoria-card {
+    background-color: #F1FFF3;
+    height: 60vh;
+    width: 100%;
+    max-width: 500px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    position: fixed;
+    margin: auto;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+}
 
-    .categoria-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background-color: #e0f0ff;
-        border-radius: 12px;
-        padding: 16px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s;
-
-        &:hover {
-            transform: scale(1.02);
-        }
-
-        .icon {
-            font-size: 2.5rem;
-            color: #00a17a;
-            margin-bottom: 8px;
-        }
-
-        .categoria-nome {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #333;
-            text-align: center;
-        }
-    }
+.card {
+    background-color: #0068FF;
 }
 
 .nav-footer {

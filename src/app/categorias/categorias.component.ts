@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FinanceService } from '../services/finance.service';
-import { DocumentChange } from '@angular/fire/firestore';
+import { Router } from '@angular/router'; // Importando Router para navegação
+import { Observable } from 'rxjs';
+
+interface Categoria {
+  id: string;
+  nome: string; // Campos que você espera ter na categoria
+  tipo: string; // 'receita' ou 'despesa'
+  quantia: number; // Valor da categoria
+  subcolecao?: any[]; // Para armazenar subcategorias
+}
 
 @Component({
   selector: 'app-categorias',
@@ -8,63 +17,60 @@ import { DocumentChange } from '@angular/fire/firestore';
   styleUrls: ['./categorias.component.scss']
 })
 export class CategoriasComponent implements OnInit {
-  categorias: any[] = [];
+  categorias: Categoria[] = [];
   saldos: { total: number, receitas: number, despesas: number } = { total: 0, receitas: 0, despesas: 0 };
 
-  constructor(private financeService: FinanceService) {}
+  constructor(private financeService: FinanceService, private router: Router) {} // Injeta o Router
 
   ngOnInit() {
-    this.loadCategorias();
+    this.loadCategorias(); // Carrega as categorias ao inicializar o componente.
   }
 
   loadCategorias() {
-    this.financeService.getCategorias().subscribe((data: DocumentChange<any>[]) => {
-      this.categorias = data.map((e: DocumentChange<any>) => {
-        return {
-          id: e.doc.id,
-          ...e.doc.data(),
-          subcolecao: []
-        };
-      });
+    this.financeService.getCategorias().subscribe((data: Categoria[]) => {
+      this.categorias = data; // Assume que `data` já está no formato correto.
 
-      // Carregar as subcoleções para cada categoria
+
+      console.log('Categorias carregadas:', this.categorias);
+
+      // Para cada categoria, carrega suas subcategorias.
       this.categorias.forEach(categoria => {
-        this.financeService.getSubcategorias(categoria.id).subscribe((subData: DocumentChange<any>[]) => {
-          categoria.subcolecao = subData.map((sub: DocumentChange<any>) => ({
-            id: sub.doc.id,
-            ...sub.doc.data()
-          }));
-        });
+        if (categoria && categoria.id) {
+          this.financeService.getSubcolecao(categoria.id).subscribe((subData: any[]) => {
+            categoria.subcolecao = subData; // Armazena as subcategorias diretamente.
+            this.calculateSaldos(); // Calcula saldos após carregar as subcategorias.
+          });
+        }
       });
     });
-
-    this.calculateSaldos();
   }
 
   calculateSaldos() {
     let totalReceitas = 0;
     let totalDespesas = 0;
 
-    // Calcular os saldos com base nas categorias
-    this.financeService.getCategorias().subscribe((categorias: DocumentChange<any>[]) => {
-      categorias.forEach((cat: DocumentChange<any>) => {
-        const data = cat.doc.data();
-        if (data.tipo === 'receita') {
-          totalReceitas += data.quantia || 0;
-        } else if (data.tipo === 'despesa') {
-          totalDespesas += data.quantia || 0;
-        }
-      });
-
-      this.saldos = {
-        total: totalReceitas - totalDespesas,
-        receitas: totalReceitas,
-        despesas: totalDespesas
-      };
+    this.categorias.forEach(categoria => {
+      if (categoria.tipo === 'receita') {
+        totalReceitas += categoria.quantia || 0;
+      } else if (categoria.tipo === 'despesa') {
+        totalDespesas += categoria.quantia || 0;
+      }
     });
+
+    this.saldos = {
+      total: totalReceitas - totalDespesas,
+      receitas: totalReceitas,
+      despesas: totalDespesas
+    };
+  }
+
+  // Método para selecionar uma categoria e navegar para as subcategorias
+  selecionarCategoria(categoriaId: string) {
+    console.log("Categoria selecionada:", categoriaId);
+    this.router.navigate(['/subcategorias', categoriaId]); // Altere a rota conforme sua configuração
   }
 
   selecionarSubcategoria(categoriaId: string, subcategoriaId: string) {
-    // Lógica para redirecionar para a página de transações da subcategoria
+    // Lógica para navegação (não implementada).
   }
 }
