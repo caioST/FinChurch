@@ -9,6 +9,7 @@ interface Categoria {
   tipo: string; // 'receita' ou 'despesa'
   quantia: number; // Valor da categoria
   subcolecao?: any[]; // Para armazenar subcategorias
+  icone?: string; // Novo campo opcional para o ícone
 }
 
 @Component({
