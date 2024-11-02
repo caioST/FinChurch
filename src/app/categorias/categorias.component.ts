@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FinanceService } from '../services/finance.service';
-import { Router } from '@angular/router'; // Importando Router para navegação
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { combineLatest } from 'rxjs';
 
 interface Categoria {
   id: string;
-  nome: string; // Campos que você espera ter na categoria
+  nome: string;
   tipo: string; // 'receita' ou 'despesa'
   quantia: number; // Valor da categoria
-  subcolecao?: any[]; // Para armazenar subcategorias
-  icone?: string; // Novo campo opcional para o ícone
+  icone?: string; // O campo ícone pode ser opcional
 }
 
 @Component({
@@ -18,60 +17,58 @@ interface Categoria {
   styleUrls: ['./categorias.component.scss']
 })
 export class CategoriasComponent implements OnInit {
-  categorias: Categoria[] = [];
-  saldos: { total: number, receitas: number, despesas: number } = { total: 0, receitas: 0, despesas: 0 };
+  receitas: Categoria[] = [];
+  despesas: Categoria[] = [];
+  departamentos: Categoria[] = [];
+  campanhas: Categoria[] = [];
+  saldos: { total: number; receitas: number; despesas: number; departamentos: number; campanhas: number } = { total: 0, receitas: 0, despesas: 0, departamentos: 0, campanhas: 0 };
 
-  constructor(private financeService: FinanceService, private router: Router) {} // Injeta o Router
+  constructor(private financeService: FinanceService, private router: Router) {}
 
   ngOnInit() {
-    this.loadCategorias(); // Carrega as categorias ao inicializar o componente.
+    this.loadCategorias();
   }
 
   loadCategorias() {
-    this.financeService.getCategorias().subscribe((data: Categoria[]) => {
-      this.categorias = data; // Assume que `data` já está no formato correto.
-
-
-      console.log('Categorias carregadas:', this.categorias);
-
-      // Para cada categoria, carrega suas subcategorias.
-      this.categorias.forEach(categoria => {
-        if (categoria && categoria.id) {
-          this.financeService.getSubcolecao(categoria.id).subscribe((subData: any[]) => {
-            categoria.subcolecao = subData; // Armazena as subcategorias diretamente.
-            this.calculateSaldos(); // Calcula saldos após carregar as subcategorias.
-          });
-        }
-      });
+    combineLatest([
+      this.financeService.getReceitas(),
+      this.financeService.getDespesas(),
+      this.financeService.getDepartamentos(),
+      this.financeService.getCampanhas(),
+    ]).subscribe(([receitas, despesas, departamentos, campanhas]) => {
+      this.receitas = receitas;
+      this.despesas = despesas;
+      this.departamentos = departamentos;
+      this.campanhas = campanhas;
+      this.calculateSaldos(); // Calcula saldos após carregar todas as categorias
     });
   }
 
   calculateSaldos() {
-    let totalReceitas = 0;
-    let totalDespesas = 0;
-
-    this.categorias.forEach(categoria => {
-      if (categoria.tipo === 'receita') {
-        totalReceitas += categoria.quantia || 0;
-      } else if (categoria.tipo === 'despesa') {
-        totalDespesas += categoria.quantia || 0;
-      }
-    });
+    const totalReceitas = this.receitas.reduce((total, categoria) => total + (categoria.quantia || 0), 0);
+    const totalDespesas = this.despesas.reduce((total, categoria) => total + (categoria.quantia || 0), 0);
+    const totalDepartamentos = this.departamentos.reduce((total, categoria) => total + (categoria.quantia || 0), 0);
+    const totalCampanhas = this.campanhas.reduce((total, categoria) => total + (categoria.quantia || 0), 0);
 
     this.saldos = {
       total: totalReceitas - totalDespesas,
       receitas: totalReceitas,
-      despesas: totalDespesas
+      despesas: totalDespesas,
+      departamentos: totalDepartamentos,
+      campanhas: totalCampanhas,
     };
   }
 
-  // Método para selecionar uma categoria e navegar para as subcategorias
   selecionarCategoria(categoriaId: string) {
     console.log("Categoria selecionada:", categoriaId);
-    this.router.navigate(['/subcategorias', categoriaId]); // Altere a rota conforme sua configuração
+    this.router.navigate(['/subcategorias', categoriaId]); // Se você tiver essa rota
   }
 
-  selecionarSubcategoria(categoriaId: string, subcategoriaId: string) {
-    // Lógica para navegação (não implementada).
+  voltar() {
+    this.router.navigate(['']); // Redireciona para a página anterior
+  }
+
+  abrirNotificacoes() {
+    this.router.navigate(['/notificacoes']); // Redireciona para a página de notificações
   }
 }
