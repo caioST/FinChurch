@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content class="page-categorias">
-
+  <!-- Header de saldo -->
   <div class="saldo-header">
     <div class="saldo-info">
       <div class="saldo-titulo">
@@ -37,61 +37,59 @@
     </div>
   </div>
 
-  <!-- Categoria Receitas -->
+  <!-- Lista de Categorias -->
   <div class="categoria-list">
+    <!-- Categorias de Receitas -->
     <div *ngFor="let receita of receitas" class="categoria-card" (click)="selecionarCategoria(receita.id)">
-      <ion-card>
         <ion-icon *ngIf="receita.icone" [name]="receita.icone"></ion-icon>
-      </ion-card>
-      <div class="categoria-nome">{{ receita.nome }}</div>
+        <div class="categoria-nome">{{ receita.nome }}</div>
     </div>
 
-    <!-- Categoria Despesas -->
+    <!-- Categorias de Despesas -->
     <div *ngFor="let despesa of despesas" class="categoria-card" (click)="selecionarCategoria(despesa.id)">
-      <ion-card>
         <ion-icon *ngIf="despesa.icone" [name]="despesa.icone"></ion-icon>
-      </ion-card>
-      <div class="categoria-nome">{{ despesa.nome }}</div>
+        <div class="categoria-nome">{{ despesa.nome }}</div>
     </div>
 
-    <!-- Categoria Departamentos -->
-    <div *ngFor="let departamentos of departamentos" class="categoria-card"
-      (click)="selecionarCategoria(departamentos.id)">
-      <ion-card>
-        <ion-icon *ngIf="departamentos.icone" [name]="departamentos.icone"></ion-icon>
-      </ion-card>
-      <div class="categoria-nome">{{ departamentos.nome }}</div>
+    <!-- Categorias de Departamentos -->
+    <div *ngFor="let departamento of departamentos" class="categoria-card" (click)="selecionarCategoria(departamento.id)">
+        <ion-icon *ngIf="departamento.icone" [name]="departamento.icone"></ion-icon>
+        <div class="categoria-nome">{{ departamento.nome }}</div>
     </div>
 
-    <!-- Categoria Campanhas -->
-    <div *ngFor="let campanhas of campanhas" class="categoria-card" (click)="selecionarCategoria(campanhas.id)">
-      <ion-card>
-        <ion-icon *ngIf="campanhas.icone" [name]="campanhas.icone"></ion-icon>
-      </ion-card>
-      <div class="categoria-nome">{{ campanhas.nome }}</div>
+    <!-- Categorias de Campanhas -->
+    <div *ngFor="let campanha of campanhas" class="categoria-card" (click)="selecionarCategoria(campanha.id)">
+        <ion-icon *ngIf="campanha.icone" [name]="campanha.icone"></ion-icon>
+        <div class="categoria-nome">{{ campanha.nome }}</div>
+    </div>
+
+    <!-- Card para adicionar nova categoria -->
+    <div class="categoria-card add-category" (click)="abrirPopupAdicionarCategoria()">
+      <ion-icon name="add-circle-outline"></ion-icon>
+      <div class="categoria-nome">Adicionar Categoria</div>
     </div>
   </div>
-
-  <!-- Barra de navegação inferior -->
-  <ion-footer class="nav-footer">
-    <ion-toolbar>
-      <ion-buttons>
-        <ion-button>
-          <ion-icon name="home-outline"></ion-icon>
-        </ion-button>
-        <ion-button>
-          <ion-icon name="analytics-outline"></ion-icon>
-        </ion-button>
-        <ion-button>
-          <ion-icon name="swap-horizontal-outline"></ion-icon>
-        </ion-button>
-        <ion-button>
-          <ion-icon name="albums-outline"></ion-icon>
-        </ion-button>
-        <ion-button>
-          <ion-icon name="person-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-footer>
 </ion-content>
+
+<!-- Barra de navegação inferior -->
+<ion-footer class="nav-footer">
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button>
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="swap-horizontal-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="albums-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

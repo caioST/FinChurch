@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FinanceService } from '../services/finance.service';
 import { Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
+import { AlertController } from '@ionic/angular';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 interface Categoria {
   id: string;
@@ -23,7 +25,12 @@ export class CategoriasComponent implements OnInit {
   campanhas: Categoria[] = [];
   saldos: { total: number; receitas: number; despesas: number; departamentos: number; campanhas: number } = { total: 0, receitas: 0, despesas: 0, departamentos: 0, campanhas: 0 };
 
-  constructor(private financeService: FinanceService, private router: Router) {}
+  constructor(
+    private financeService: FinanceService,
+    private router: Router,
+    private alertController: AlertController,
+    private firestore: AngularFirestore
+  ) {}
 
   ngOnInit() {
     this.loadCategorias();
@@ -70,5 +77,66 @@ export class CategoriasComponent implements OnInit {
 
   abrirNotificacoes() {
     this.router.navigate(['/notificacoes']); // Redireciona para a página de notificações
+  }
+
+  async abrirPopupAdicionarCategoria() {
+    const alert = await this.alertController.create({
+      header: 'Nova Categoria',
+      inputs: [
+        {
+          name: 'nome',
+          type: 'text',
+          placeholder: 'Nome da categoria',
+        },
+        {
+          name: 'subcategorias',
+          type: 'textarea',
+          placeholder: 'Subcategorias (separe por vírgula)',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Salvar',
+          handler: (data) => {
+            this.adicionarCategoriaFirebase(data.nome, data.subcategorias);
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  adicionarCategoriaFirebase(nome: string, subcategorias: string) {
+    if (!nome.trim()) {
+      console.log('Nome da categoria é necessário');
+      return;
+    }
+
+    const subcategoriasArray = subcategorias
+      .split(',')
+      .map((sub) => sub.trim())
+      .filter((sub) => sub !== ''); // Remove strings vazias
+
+    const categoriaData = {
+      nome,
+      subcategorias: subcategoriasArray,
+      tipo: 'personalizada', // Define o tipo como 'personalizada'
+      quantia: 0, // Inicializa a quantia com 0
+    };
+
+    this.firestore
+      .collection('categorias')
+      .add(categoriaData)
+      .then(() => {
+        console.log('Categoria adicionada com sucesso');
+        this.loadCategorias(); // Recarrega as categorias para atualizar a lista
+      })
+      .catch((error) => {
+        console.error('Erro ao adicionar categoria:', error);
+      });
   }
 }
