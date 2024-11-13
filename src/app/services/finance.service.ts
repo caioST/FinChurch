@@ -52,4 +52,15 @@ export class FinanceService {
       }))
     );
   }
+
+  getSubcategorias(categoriaId: string): Observable<any[]> {
+    return this.firestore.collection(`despesas/${categoriaId}/subcolecao`).snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as any;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    );
+  }
+  
 }

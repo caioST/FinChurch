@@ -22,6 +22,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FinanceService } from './services/finance.service';
 import { ErrorHandler } from './services/error-handler.service';
+import { SubcategoriasComponent } from './subcategorias/subcategorias.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { ErrorHandler } from './services/error-handler.service';
     AppComponent,
     TermsModalComponent,
     CategoriasComponent,
+    SubcategoriasComponent,
   ],
   imports: [
     BrowserModule, 

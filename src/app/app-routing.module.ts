@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { CategoriasComponent } from './categorias/categorias.component';
+import { SubcategoriasComponent } from './subcategorias/subcategorias.component';
 
 
 const routes: Routes = [
@@ -55,6 +56,12 @@ const routes: Routes = [
     component:  CategoriasComponent
 
   },
+
+  {
+    path: 'subcategorias/:categoriaId',
+    component: SubcategoriasComponent
+  },
+  
 ];
 
 @NgModule({
