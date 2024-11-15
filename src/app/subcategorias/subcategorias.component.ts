@@ -22,11 +22,11 @@ export class SubcategoriasComponent implements OnInit {
   ngOnInit() {
     // Obtém o ID da categoria da rota
     this.categoriaId = this.route.snapshot.paramMap.get('categoriaId') || '';
-    this.loadSubcategorias();
+    this.loadAllSubcategorias();
   }
 
-  loadSubcategorias() {
-    this.financeService.getSubcategorias(this.categoriaId).subscribe((subcategorias) => {
+  loadAllSubcategorias() {
+    this.financeService.getAllSubcategorias().subscribe((subcategorias) => {
       this.subcategorias = subcategorias;
       this.calculateSaldos(); // Calcula os saldos após carregar as subcategorias
     });
