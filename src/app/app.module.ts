@@ -23,6 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FinanceService } from './services/finance.service';
 import { ErrorHandler } from './services/error-handler.service';
 import { SubcategoriasComponent } from './subcategorias/subcategorias.component';
+import { ResumoSubcategoriaComponent } from './resumo-subcategoria/resumo-subcategoria.component';
+import { AdicionarValorComponent } from './adicionar-valor/adicionar-valor.component';
 
 
 @NgModule({
@@ -31,6 +33,8 @@ import { SubcategoriasComponent } from './subcategorias/subcategorias.component'
     TermsModalComponent,
     CategoriasComponent,
     SubcategoriasComponent,
+    ResumoSubcategoriaComponent,
+    AdicionarValorComponent,
   ],
   imports: [
     BrowserModule, 

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { SubcategoriasComponent } from './subcategorias/subcategorias.component';
+import { ResumoSubcategoriaComponent } from './resumo-subcategoria/resumo-subcategoria.component';
+import { AdicionarValorComponent } from './adicionar-valor/adicionar-valor.component';
 
 
 const routes: Routes = [
@@ -61,6 +63,10 @@ const routes: Routes = [
     path: 'subcategorias/:categoriaId/:colecao',
     component: SubcategoriasComponent
   },
+
+  { path: 'subcategorias/:colecao/:categoriaId', component: SubcategoriasComponent },
+  { path: 'subcategoria/:colecao/:categoriaId/:subcategoriaId', component: ResumoSubcategoriaComponent },
+  { path: 'subcategoria/:colecao/:categoriaId/:subcategoriaId/adicionar', component: AdicionarValorComponent },
   
 ];
 

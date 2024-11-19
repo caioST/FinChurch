@@ -1,0 +1,15 @@
+<div class="resumo-container">
+  <h1>Resumo de {{ subcategoriaId }}</h1>
+  <p>Entradas: R$ {{ saldos.entradas | number: '1.2-2' }}</p>
+  <p>Saídas: R$ {{ saldos.saidas | number: '1.2-2' }}</p>
+
+  <h2>Histórico</h2>
+  <ul>
+    <li *ngFor="let transacao of historico">
+      {{ transacao.data | date: 'dd/MM/yyyy' }} - R$ {{ transacao.quantia | number: '1.2-2' }}
+      <span>({{ transacao.titulo }})</span>
+    </li>
+  </ul>
+
+  <button (click)="adicionarValor()">Adicionar</button>
+</div>

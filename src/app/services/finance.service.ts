@@ -8,7 +8,7 @@ import { map, catchError, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class FinanceService {
-  constructor(private firestore: AngularFirestore) {}
+  constructor(private firestore: AngularFirestore) { }
 
   /**
    * Obtém todas as subcategorias de várias coleções
@@ -58,5 +58,31 @@ export class FinanceService {
     return forkJoin(observables).pipe(
       map((subcategoriasPorColecao) => subcategoriasPorColecao.flat())
     );
+  }
+
+  getSubcategoriaTransacoes(colecao: string, subcategoriaId: string): Observable<any[]> {
+    return this.firestore
+      .collection(colecao)
+      .doc('Receitas') // Atualize conforme necessário
+      .collection('subcolecao')
+      .doc(subcategoriaId)
+      .collection('transacoes')
+      .valueChanges({ idField: 'id' });
+  }
+
+  addSubcategoriaValor(
+    colecao: string,
+    subcategoriaId: string,
+    data: any
+  ): Promise<void> {
+    const docRef = this.firestore
+      .collection(colecao)
+      .doc('Receitas') // Atualize conforme necessário
+      .collection('subcolecao')
+      .doc(subcategoriaId)
+      .collection('transacoes')
+      .doc();
+
+    return docRef.set(data);
   }
 }
