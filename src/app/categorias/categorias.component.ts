@@ -1,85 +1,132 @@
 import { Component, OnInit } from '@angular/core';
-import { FinanceService } from '../services/finance.service';
 import { Router } from '@angular/router';
-import { combineLatest } from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable, combineLatest } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 interface Categoria {
   id: string;
   nome: string;
-  tipo: string; // 'receita' ou 'despesa'
-  quantia: number; // Valor da categoria
-  icone?: string; // O campo ícone pode ser opcional
+  tipo: string;
+  quantia: number;
+  icone?: string;
+  subcategorias?: string[];
 }
 
 @Component({
   selector: 'app-categorias',
   templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.scss']
+  styleUrls: ['./categorias.component.scss'],
 })
 export class CategoriasComponent implements OnInit {
   receitas: Categoria[] = [];
   despesas: Categoria[] = [];
   departamentos: Categoria[] = [];
   campanhas: Categoria[] = [];
-  saldos: { total: number; receitas: number; despesas: number; departamentos: number; campanhas: number } = { total: 0, receitas: 0, despesas: 0, departamentos: 0, campanhas: 0 };
+  saldos = {
+    total: 0,
+    receitas: 0,
+    despesas: 0,
+    departamentos: 0,
+    campanhas: 0,
+  };
 
   constructor(
-    private financeService: FinanceService,
     private router: Router,
     private alertController: AlertController,
     private firestore: AngularFirestore
-  ) {}
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadCategorias();
   }
 
-  loadCategorias() {
+  /**
+   * Carrega categorias de todas as coleções
+   */
+  loadCategorias(): void {
     combineLatest([
-      this.financeService.getReceitas(),
-      this.financeService.getDespesas(),
-      this.financeService.getDepartamentos(),
-      this.financeService.getCampanhas(),
-    ]).subscribe(([receitas, despesas, departamentos, campanhas]) => {
-      this.receitas = receitas;
-      this.despesas = despesas;
-      this.departamentos = departamentos;
-      this.campanhas = campanhas;
-      this.calculateSaldos(); // Calcula saldos após carregar todas as categorias
-    });
+      this.getCategoriasFromFirestore('receitas'),
+      this.getCategoriasFromFirestore('despesas'),
+      this.getCategoriasFromFirestore('departamentos'),
+      this.getCategoriasFromFirestore('campanhas'),
+    ])
+      .pipe(
+        catchError((error) => {
+          console.error('Erro ao carregar categorias:', error);
+          return of([[], [], [], []]); // Retorna valores vazios em caso de erro
+        })
+      )
+      .subscribe(([receitas, despesas, departamentos, campanhas]) => {
+        this.receitas = receitas;
+        this.despesas = despesas;
+        this.departamentos = departamentos;
+        this.campanhas = campanhas;
+        this.calculateSaldos();
+      });
   }
 
-  calculateSaldos() {
-    const totalReceitas = this.receitas.reduce((total, categoria) => total + (categoria.quantia || 0), 0);
-    const totalDespesas = this.despesas.reduce((total, categoria) => total + (categoria.quantia || 0), 0);
-    const totalDepartamentos = this.departamentos.reduce((total, categoria) => total + (categoria.quantia || 0), 0);
-    const totalCampanhas = this.campanhas.reduce((total, categoria) => total + (categoria.quantia || 0), 0);
+  /**
+   * Obtém categorias de uma coleção Firestore
+   */
+  getCategoriasFromFirestore(colecao: string): Observable<Categoria[]> {
+    return this.firestore
+      .collection<Categoria>(colecao)
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map((categorias) => categorias || []), // Garante que nunca retorne `null`
+        catchError((error) => {
+          console.error(`Erro ao obter categorias de ${colecao}:`, error);
+          return of([]); // Retorna array vazio em caso de erro
+        })
+      );
+  }
 
+  /**
+   * Calcula saldos de receitas, despesas, etc.
+   */
+  calculateSaldos(): void {
     this.saldos = {
-      total: totalReceitas - totalDespesas,
-      receitas: totalReceitas,
-      despesas: totalDespesas,
-      departamentos: totalDepartamentos,
-      campanhas: totalCampanhas,
+      receitas: this.calculateTotal(this.receitas),
+      despesas: this.calculateTotal(this.despesas),
+      departamentos: this.calculateTotal(this.departamentos),
+      campanhas: this.calculateTotal(this.campanhas),
+      total:
+        this.calculateTotal(this.receitas) - this.calculateTotal(this.despesas),
     };
   }
 
-  selecionarCategoria(categoriaId: string) {
-    console.log("Categoria selecionada:", categoriaId);
-    this.router.navigate(['/subcategorias', categoriaId]); // Se você tiver essa rota
+  /**
+   * Calcula o total de valores em uma categoria
+   */
+  calculateTotal(categorias: Categoria[]): number {
+    return categorias.reduce(
+      (total, categoria) => total + (categoria.quantia || 0),
+      0
+    );
   }
 
-  voltar() {
-    this.router.navigate(['']); // Redireciona para a página anterior
+  /**
+   * Redireciona para a página de subcategorias
+   */
+  selecionarCategoria(categoriaId: string): void {
+    this.router.navigate(['/subcategorias', categoriaId]);
   }
 
-  abrirNotificacoes() {
-    this.router.navigate(['/notificacoes']); // Redireciona para a página de notificações
+  voltar(): void {
+    this.router.navigate(['']);
   }
 
-  async abrirPopupAdicionarCategoria() {
+  abrirNotificacoes(): void {
+    this.router.navigate(['/notificacoes']);
+  }
+
+  /**
+   * Abre um popup para adicionar uma nova categoria
+   */
+  async abrirPopupAdicionarCategoria(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Nova Categoria',
       inputs: [
@@ -101,39 +148,50 @@ export class CategoriasComponent implements OnInit {
         },
         {
           text: 'Salvar',
-          handler: (data) => {
-            this.adicionarCategoriaFirebase(data.nome, data.subcategorias);
-          },
+          handler: (data) => this.handleSalvarCategoria(data),
         },
       ],
     });
     await alert.present();
   }
 
-  adicionarCategoriaFirebase(nome: string, subcategorias: string) {
-    if (!nome.trim()) {
-      console.log('Nome da categoria é necessário');
-      return;
+  /**
+   * Valida e processa os dados de uma nova categoria
+   */
+  handleSalvarCategoria(data: any): boolean {
+    if (!data.nome || !data.nome.trim()) {
+      console.error('Nome da categoria é obrigatório.');
+      return false;
     }
 
-    const subcategoriasArray = subcategorias
-      .split(',')
-      .map((sub) => sub.trim())
-      .filter((sub) => sub !== ''); // Remove strings vazias
+    const subcategorias = data.subcategorias
+      ? data.subcategorias
+        .split(',')
+        .map((s: string) => s.trim())
+        .filter(Boolean)
+      : [];
 
-    const categoriaData = {
+    this.adicionarCategoriaFirebase(data.nome, subcategorias);
+    return true;
+  }
+
+  /**
+   * Adiciona uma nova categoria ao Firestore
+   */
+  adicionarCategoriaFirebase(nome: string, subcategorias: string[]): void {
+    const categoria: Omit<Categoria, 'id'> = {
       nome,
-      subcategorias: subcategoriasArray,
-      tipo: 'personalizada', // Define o tipo como 'personalizada'
-      quantia: 0, // Inicializa a quantia com 0
+      subcategorias,
+      tipo: 'personalizada',
+      quantia: 0,
     };
 
     this.firestore
       .collection('categorias')
-      .add(categoriaData)
+      .add(categoria)
       .then(() => {
-        console.log('Categoria adicionada com sucesso');
-        this.loadCategorias(); // Recarrega as categorias para atualizar a lista
+        console.log('Categoria adicionada com sucesso.');
+        this.loadCategorias();
       })
       .catch((error) => {
         console.error('Erro ao adicionar categoria:', error);
