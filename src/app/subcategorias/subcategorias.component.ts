@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FinanceService } from '../services/finance.service';
 
 @Component({
@@ -9,18 +9,31 @@ import { FinanceService } from '../services/finance.service';
 })
 export class SubcategoriasComponent implements OnInit {
   subcategorias: any[] = [];
+  categoriaId: string = '';
+  colecao: string = '';
   saldos: { total: number; receitas: number; despesas: number } = { total: 0, receitas: 0, despesas: 0 };
 
-  constructor(private financeService: FinanceService, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private financeService: FinanceService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.loadAllSubcategorias();
+    // Obtém os parâmetros da rota
+    this.route.params.subscribe((params) => {
+      this.categoriaId = params['categoriaId'];
+      this.colecao = params['colecao'];
+      this.loadSubcategorias();
+    });
   }
 
-  loadAllSubcategorias() {
+  loadSubcategorias() {
     this.financeService.getAllSubcategorias().subscribe({
       next: (subcategorias) => {
-        this.subcategorias = subcategorias;
+        this.subcategorias = subcategorias.filter(
+          (sub) => sub.categoriaId === this.categoriaId && sub.colecao === this.colecao
+        );
         this.calculateSaldos();
       },
       error: (error) => {
@@ -30,24 +43,22 @@ export class SubcategoriasComponent implements OnInit {
   }
 
   calculateSaldos() {
-    const totalReceitas = this.subcategorias.reduce((total, sub) => total + (sub.quantia || 0), 0);
-    const totalDespesas = this.subcategorias.reduce((total, sub) => total + (sub.quantia || 0), 0);
+    const totalReceitas = this.subcategorias
+      .filter((sub) => sub.colecao === 'receitas')
+      .reduce((total, sub) => total + (sub.quantia || 0), 0);
+
+    const totalDespesas = this.subcategorias
+      .filter((sub) => sub.colecao === 'despesas')
+      .reduce((total, sub) => total + (sub.quantia || 0), 0);
 
     this.saldos = { total: totalReceitas - totalDespesas, receitas: totalReceitas, despesas: totalDespesas };
   }
 
-  selecionarSubcategoria(subcategoriaId: string) {
+  selecionarSubcategoria(subcategoriaId: string): void {
     this.router.navigate(['/transacoes', subcategoriaId]);
   }
 
-  voltar() {
-    this.router.navigate(['/categorias']); // Redireciona de volta para a página de categorias
+  voltar(): void {
+    this.router.navigate(['/categorias']);
   }
-  
 }
-
-
-  
-  
-
-

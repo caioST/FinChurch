@@ -58,7 +58,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'subcategorias/:categoriaId',
+    path: 'subcategorias/:categoriaId/:colecao',
     component: SubcategoriasComponent
   },
   

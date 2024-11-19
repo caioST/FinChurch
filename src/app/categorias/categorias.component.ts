@@ -111,8 +111,8 @@ export class CategoriasComponent implements OnInit {
   /**
    * Redireciona para a página de subcategorias
    */
-  selecionarCategoria(categoriaId: string): void {
-    this.router.navigate(['/subcategorias', categoriaId]);
+  selecionarCategoria(categoriaId: string, colecao: string): void {
+    this.router.navigate([`/subcategorias`, categoriaId, colecao]);
   }
 
   voltar(): void {

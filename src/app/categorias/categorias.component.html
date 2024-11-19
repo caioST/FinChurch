@@ -40,25 +40,28 @@
   <!-- Lista de Categorias -->
   <div class="categoria-list">
     <!-- Categorias de Receitas -->
-    <div *ngFor="let receita of receitas" class="categoria-card" (click)="selecionarCategoria(receita.id)">
+    <div 
+    *ngFor="let receita of receitas" 
+    class="categoria-card" 
+    (click)="selecionarCategoria(receita.id, 'receitas')">
         <ion-icon *ngIf="receita.icone" [name]="receita.icone"></ion-icon>
         <div class="categoria-nome">{{ receita.nome }}</div>
     </div>
 
     <!-- Categorias de Despesas -->
-    <div *ngFor="let despesa of despesas" class="categoria-card" (click)="selecionarCategoria(despesa.id)">
+    <div *ngFor="let despesa of despesas" class="categoria-card" (click)="selecionarCategoria(despesa.id, 'despesas')">
         <ion-icon *ngIf="despesa.icone" [name]="despesa.icone"></ion-icon>
         <div class="categoria-nome">{{ despesa.nome }}</div>
     </div>
 
     <!-- Categorias de Departamentos -->
-    <div *ngFor="let departamento of departamentos" class="categoria-card" (click)="selecionarCategoria(departamento.id)">
+    <div *ngFor="let departamento of departamentos" class="categoria-card" (click)="selecionarCategoria(departamento.id, 'departamentos')">
         <ion-icon *ngIf="departamento.icone" [name]="departamento.icone"></ion-icon>
         <div class="categoria-nome">{{ departamento.nome }}</div>
     </div>
 
     <!-- Categorias de Campanhas -->
-    <div *ngFor="let campanha of campanhas" class="categoria-card" (click)="selecionarCategoria(campanha.id)">
+    <div *ngFor="let campanha of campanhas" class="categoria-card" (click)="selecionarCategoria(campanha.id, 'campanhas')">
         <ion-icon *ngIf="campanha.icone" [name]="campanha.icone"></ion-icon>
         <div class="categoria-nome">{{ campanha.nome }}</div>
     </div>

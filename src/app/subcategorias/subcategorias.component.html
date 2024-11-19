@@ -25,34 +25,21 @@
   </div>
 
   <!-- Lista de Subcategorias -->
-  <div class="categoria-list">
-    <div *ngFor="let subcategoria of subcategorias" class="categoria-card"
-      (click)="selecionarSubcategoria(subcategoria.id)">
+  <div class="categoria-list" *ngIf="subcategorias.length > 0; else noData">
+    <div
+      *ngFor="let subcategoria of subcategorias"
+      class="categoria-card"
+      (click)="selecionarSubcategoria(subcategoria.id)"
+    >
       <ion-icon *ngIf="subcategoria.icone" [name]="subcategoria.icone"></ion-icon>
-      <div class="categoria-nome">{{ subcategoria.nome }}</div>
+      <div class="categoria-nome">{{ subcategoria.nome || 'Sem Nome' }}</div>
     </div>
   </div>
-</ion-content>
 
-<!-- Barra de navegação inferior -->
-<ion-footer class="nav-footer">
-  <ion-toolbar>
-    <ion-buttons>
-      <ion-button>
-        <ion-icon name="home-outline"></ion-icon>
-      </ion-button>
-      <ion-button>
-        <ion-icon name="analytics-outline"></ion-icon>
-      </ion-button>
-      <ion-button>
-        <ion-icon name="swap-horizontal-outline"></ion-icon>
-      </ion-button>
-      <ion-button>
-        <ion-icon name="albums-outline"></ion-icon>
-      </ion-button>
-      <ion-button>
-        <ion-icon name="person-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
+  <!-- Mensagem para quando não há subcategorias -->
+  <ng-template #noData>
+    <div class="no-data">
+      <p>Não há subcategorias disponíveis para esta categoria.</p>
+    </div>
+  </ng-template>
+</ion-content>
