@@ -60,14 +60,47 @@ export class FinanceService {
     );
   }
 
-  getSubcategoriaTransacoes(colecao: string, subcategoriaId: string): Observable<any[]> {
+
+
+  getSubcategoriaDetalhes(
+    colecao: string,
+    categoriaId: string,
+    subcategoriaId: string
+  ): Observable<{ 
+    valorMeta: number; 
+    economizado: number; 
+    nome: string; 
+    icone: string; 
+  }> {
     return this.firestore
-      .collection(colecao)
-      .doc('Receitas') // Atualize conforme necessário
-      .collection('subcolecao')
-      .doc(subcategoriaId)
-      .collection('transacoes')
-      .valueChanges({ idField: 'id' });
+      .collection(colecao) // Coleção principal
+      .doc(categoriaId) // Documento principal
+      .collection('subcolecao') // Subcoleção
+      .doc<{ valorMeta: number; economizado: number; nome: string; icone: string }>(subcategoriaId) // Documento esperado
+      .valueChanges()
+      .pipe(
+        map((subcategoria) => {
+          // Adiciona valores padrão caso as propriedades estejam ausentes
+          return {
+            valorMeta: subcategoria?.valorMeta ?? 0,
+            economizado: subcategoria?.economizado ?? 0,
+            nome: subcategoria?.nome ?? '',
+            icone: subcategoria?.icone ?? '',
+          };
+        })
+      );
+  }
+  
+  
+
+  getSubcategoriaTransacoes(colecao: string, categoriaId: string, subcategoriaId: string): Observable<any[]> {
+    return this.firestore
+      .collection(colecao) // Coleção principal
+      .doc(categoriaId) // Documento principal
+      .collection('subcolecao') // Subcoleção
+      .doc(subcategoriaId) // Documento da subcategoria
+      .collection('transacoes') // Subcoleção das transações
+      .valueChanges();
   }
 
   addSubcategoriaValor(

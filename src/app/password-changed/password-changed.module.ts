@@ -12,8 +12,9 @@ import { PasswordChangedPage } from './password-changed.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
-    PasswordChangedPageRoutingModule
+    IonicModule.forRoot(),
+    PasswordChangedPageRoutingModule,
+    NgModule,
   ],
   declarations: [PasswordChangedPage]
 })

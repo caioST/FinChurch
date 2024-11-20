@@ -12,8 +12,8 @@ import { ForgotPasswordPage } from './forgot-password.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
-    ForgotPasswordPageRoutingModule
+    IonicModule.forRoot(),
+    ForgotPasswordPageRoutingModule,
   ],
   declarations: [ForgotPasswordPage]
 })

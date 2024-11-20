@@ -11,7 +11,7 @@ import { HomePageRoutingModule } from './home-routing.module';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+    IonicModule.forRoot(),
     HomePageRoutingModule
   ],
   declarations: [HomePage]

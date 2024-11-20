@@ -11,16 +11,19 @@
   <!-- Header de saldo -->
   <div class="saldo-header">
     <div class="saldo-info">
+      
       <div class="saldo-titulo">
         <ion-icon name="wallet"></ion-icon>
         <div class="titulo">Saldo Total</div>
         <div class="valor">R$ {{ saldos.total | number: '1.2-2' }}</div>
       </div>
+
       <div class="despesa-titulo">
         <ion-icon name="card"></ion-icon>
         <div class="titulo">Despesa Total</div>
         <div class="valor">-R$ {{ saldos.despesas | number: '1.2-2' }}</div>
       </div>
+
     </div>
   </div>
 

@@ -12,8 +12,9 @@ import { NewPasswordPage } from './new-password.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
-    NewPasswordPageRoutingModule
+    IonicModule.forRoot(),
+    NewPasswordPageRoutingModule,
+    NgModule,
   ],
   declarations: [NewPasswordPage]
 })

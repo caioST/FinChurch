@@ -12,7 +12,7 @@ import { SecurityKeyPage } from './security-key.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+    IonicModule.forRoot(),
     SecurityKeyPageRoutingModule
   ],
   declarations: [SecurityKeyPage]

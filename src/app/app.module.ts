@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser'; 
 import { RouteReuseStrategy } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -33,8 +34,8 @@ import { AdicionarValorComponent } from './adicionar-valor/adicionar-valor.compo
     TermsModalComponent,
     CategoriasComponent,
     SubcategoriasComponent,
-    ResumoSubcategoriaComponent,
     AdicionarValorComponent,
+    ResumoSubcategoriaComponent,
   ],
   imports: [
     BrowserModule, 
@@ -45,7 +46,9 @@ import { AdicionarValorComponent } from './adicionar-valor/adicionar-valor.compo
     AngularFireAuthModule,
     AngularFirestoreModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule,
+    
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FingerprintAIO, FinanceService, ErrorHandler],
 

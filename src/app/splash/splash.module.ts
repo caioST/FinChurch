@@ -12,7 +12,7 @@ import { SplashPage } from './splash.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+    IonicModule.forRoot(),
     SplashPageRoutingModule
   ],
   declarations: [SplashPage]

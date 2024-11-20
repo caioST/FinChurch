@@ -12,8 +12,8 @@ import { AccessPage } from './access.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
-    AccessPageRoutingModule
+    IonicModule.forRoot(),
+    AccessPageRoutingModule,
   ],
   declarations: [AccessPage]
 })

@@ -12,8 +12,8 @@ import { FingerprintAuthenticationPage } from './fingerprint-authentication.page
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
-    FingerprintAuthenticationPageRoutingModule
+    IonicModule.forRoot(),
+    FingerprintAuthenticationPageRoutingModule,
   ],
   declarations: [FingerprintAuthenticationPage]
 })
